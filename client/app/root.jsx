@@ -8,6 +8,15 @@ import {
 } from '@remix-run/react';
 import { MantineProvider } from '@mantine/core';
 import { StylesPlaceholder } from '@mantine/remix';
+import Layout from './components/common/Layout';
+import resetCSS from '~/styles/reset.css';
+
+export const links = () => [
+  {
+    rel: 'stylesheet',
+    href: resetCSS,
+  },
+];
 
 export const meta = () => ({
   charset: 'utf-8',
@@ -17,7 +26,11 @@ export const meta = () => ({
 
 export default function App() {
   return (
-    <MantineProvider withGlobalStyles withNormalizeCSS>
+    <MantineProvider
+      // theme={{ colorScheme: 'dark' }}
+      withGlobalStyles
+      withNormalizeCSS
+    >
       <html lang='en'>
         <head>
           <Meta />
@@ -25,7 +38,9 @@ export default function App() {
           <StylesPlaceholder />
         </head>
         <body>
-          <Outlet />
+          <Layout>
+            <Outlet />
+          </Layout>
           <ScrollRestoration />
           <Scripts />
           <LiveReload />
