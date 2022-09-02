@@ -1,32 +1,56 @@
-export default function Index() {
+import { Overlay, Container, Title, Button, Text } from '@mantine/core';
+import { Link } from '@remix-run/react';
+import mainStyles from '~/styles/main';
+
+export default function MainRoute() {
+  const { classes } = mainStyles();
+  const { container, title, description, control } = classes;
   return (
-    <div style={{ fontFamily: "system-ui, sans-serif", lineHeight: "1.4" }}>
-      <h1>Welcome to Remix</h1>
-      <ul>
-        <li>
-          <a
-            target="_blank"
-            href="https://remix.run/tutorials/blog"
-            rel="noreferrer"
+    <div>
+      <Overlay
+        gradient='linear-gradient(180deg, rgba(0, 0, 0, 0.25) 0%, rgba(0, 0, 0, .65) 100%)'
+        opacity={1}
+        zIndex={0}
+      />
+      <Container className={container}>
+        <Title className={title}>
+          Create your own Todo list with{' '}
+          <Text
+            component='span'
+            inherit
+            variant='gradient'
+            gradient={{ from: 'pink', to: 'yellow' }}
           >
-            15m Quickstart Blog Tutorial
-          </a>
-        </li>
-        <li>
-          <a
-            target="_blank"
-            href="https://remix.run/tutorials/jokes"
-            rel="noreferrer"
+            Remix.run
+          </Text>
+          {' / '}
+          <Text
+            component='span'
+            inherit
+            variant='gradient'
+            gradient={{ from: 'blue', to: 'cyan' }}
           >
-            Deep Dive Jokes App Tutorial
-          </a>
-        </li>
-        <li>
-          <a target="_blank" href="https://remix.run/docs" rel="noreferrer">
-            Remix Docs
-          </a>
-        </li>
-      </ul>
+            Mantine
+          </Text>{' '}
+        </Title>
+        <Text className={description} size='xl' weight={500} mt='xl'>
+          Build fully functional accessible web applications faster than ever –
+          These stacks are the ones I'm having fun with these days! Make your
+          own website easily and quickly!
+        </Text>
+
+        <Button
+          component={Link}
+          to='/todos'
+          variant='gradient'
+          size='xl'
+          radius='xl'
+          className={control}
+        >
+          Get started
+        </Button>
+      </Container>
     </div>
   );
 }
+//
