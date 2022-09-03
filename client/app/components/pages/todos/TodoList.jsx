@@ -104,24 +104,19 @@ export default function TodoList({ data }) {
 
   const handleDragEnd = ({ destination, source }) => {
     if (!destination) return;
+    if (destination.droppableId === source.droppableId && destination.index === source.index) return;
+
     const copiedList = { ...todoList };
 
     //드래그 시작한 카테고리 리스트
     const sourceCategory = copiedList[source.droppableId];
     // 드래그 한 카드를 삭제한 새 배열 반환 + 삭제한 카드 추출
-    const [newSourceCategory, removedCard] = removeFormList(
-      sourceCategory,
-      source.index
-    );
+    const [newSourceCategory, removedCard] = removeFormList(sourceCategory, source.index);
     // 기존 배열을 새 배열로 대체
     copiedList[source.droppableId] = newSourceCategory;
 
     const destinationCategory = copiedList[destination.droppableId];
-    copiedList[destination.droppableId] = addToList(
-      destinationCategory,
-      destination.index,
-      removedCard
-    );
+    copiedList[destination.droppableId] = addToList(destinationCategory, destination.index, removedCard);
 
     setTodoList(copiedList);
   };
@@ -129,12 +124,8 @@ export default function TodoList({ data }) {
   return (
     <DragDropContext onDragEnd={handleDragEnd}>
       <div style={{ display: 'flex' }}>
-        {category.map((categoryKey) => (
-          <TodoCategory
-            key={categoryKey}
-            prefix={categoryKey}
-            category={todoList[categoryKey]}
-          />
+        {category.map(categoryKey => (
+          <TodoCategory key={categoryKey} prefix={categoryKey} category={todoList[categoryKey]} />
         ))}
       </div>
     </DragDropContext>

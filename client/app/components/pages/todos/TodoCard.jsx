@@ -20,7 +20,7 @@ export default function TodoCard({ card, index }) {
           <Text className={symbol}>{card.symbol}</Text>
           <div>
             <Text>{card.name}</Text>
-            <Text color='dimmed' size='sm'>
+            <Text color="dimmed" size="sm">
               Position: {card.position} • Mass: {card.mass}
             </Text>
           </div>

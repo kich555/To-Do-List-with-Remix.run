@@ -1,6 +1,6 @@
 import { createStyles } from '@mantine/core';
 
-const mainStyles = createStyles((theme) => ({
+const mainStyles = createStyles(theme => ({
   // wrapper: {
   //   position: 'relative',
   //   backgroundImage:

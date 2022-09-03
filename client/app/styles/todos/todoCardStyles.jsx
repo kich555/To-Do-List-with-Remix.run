@@ -1,17 +1,14 @@
 import { createStyles } from '@mantine/core';
 
-const todoCardStyles = createStyles((theme) => ({
+const todoCardStyles = createStyles(theme => ({
   item: {
     ...theme.fn.focusStyles(),
     display: 'flex',
     alignItems: 'center',
     borderRadius: theme.radius.md,
-    border: `1px solid ${
-      theme.colorScheme === 'dark' ? theme.colors.dark[5] : theme.colors.gray[2]
-    }`,
+    border: `1px solid ${theme.colorScheme === 'dark' ? theme.colors.dark[5] : theme.colors.gray[2]}`,
     padding: `${theme.spacing.sm}px ${theme.spacing.xl}px`,
-    backgroundColor:
-      theme.colorScheme === 'dark' ? theme.colors.dark[5] : theme.white,
+    backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[5] : theme.white,
     marginBottom: theme.spacing.sm,
   },
 

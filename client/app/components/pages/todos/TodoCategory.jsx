@@ -4,9 +4,7 @@ import TodoCard from '~/components/pages/todos/TodoCard';
 
 export default function TodoCategory({ category, prefix }) {
   console.log('category', category);
-  const cards = category.map((card, index) => (
-    <TodoCard key={card.name} card={card} index={index} />
-  ));
+  const cards = category.map((card, index) => <TodoCard key={card.name} card={card} index={index} />);
 
   return (
     <section
@@ -15,16 +13,12 @@ export default function TodoCategory({ category, prefix }) {
         padding: '0 20px',
       }}
     >
-      <Title align='center' mb={20} mt={10}>
+      <Title align="center" mb={20} mt={10}>
         {prefix}
       </Title>
-      <Droppable droppableId={prefix} direction='vertical'>
-        {(provided) => (
-          <div
-            {...provided.droppableProps}
-            ref={provided.innerRef}
-            style={{ width: '100%', height: '100vh', overflowY: 'scroll' }}
-          >
+      <Droppable droppableId={prefix} direction="vertical">
+        {provided => (
+          <div {...provided.droppableProps} ref={provided.innerRef} style={{ width: '100%', height: '100vh', overflowY: 'scroll' }}>
             {cards}
             {provided.placeholder}
           </div>

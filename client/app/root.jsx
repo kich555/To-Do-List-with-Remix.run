@@ -1,11 +1,4 @@
-import {
-  Links,
-  LiveReload,
-  Meta,
-  Outlet,
-  Scripts,
-  ScrollRestoration,
-} from '@remix-run/react';
+import { Links, LiveReload, Meta, Outlet, Scripts, ScrollRestoration } from '@remix-run/react';
 import { MantineProvider } from '@mantine/core';
 import { StylesPlaceholder } from '@mantine/remix';
 import Layout from './components/common/Layout';
@@ -31,7 +24,7 @@ export default function App() {
       withGlobalStyles
       withNormalizeCSS
     >
-      <html lang='en'>
+      <html lang="en">
         <head>
           <Meta />
           <Links />
