@@ -1,4 +1,3 @@
-import { Group } from '@mantine/core';
 import { useState } from 'react';
 import { DragDropContext, resetServerContext } from 'react-beautiful-dnd';
 import TodoCategory from '~/components/pages/todos/TodoCategory';
@@ -6,7 +5,6 @@ import TodoCategory from '~/components/pages/todos/TodoCategory';
 export default function TodoList({ data }) {
   resetServerContext();
 
-  const category = ['todo', 'inProgress', 'done'];
   const lists = {
     todo: [
       {
@@ -88,6 +86,8 @@ export default function TodoList({ data }) {
     ],
   };
 
+  const category = Object.keys(lists);
+
   const removeFormList = (list, index) => {
     const result = [...list];
     const [removed] = result.splice(index, 1);
@@ -123,7 +123,7 @@ export default function TodoList({ data }) {
 
   return (
     <DragDropContext onDragEnd={handleDragEnd}>
-      <div style={{ display: 'flex' }}>
+      <div style={{ display: 'flex', height: '100%', padding: '20px 0' }}>
         {category.map(categoryKey => (
           <TodoCategory key={categoryKey} prefix={categoryKey} category={todoList[categoryKey]} />
         ))}
