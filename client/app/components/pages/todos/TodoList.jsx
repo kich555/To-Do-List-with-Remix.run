@@ -1,92 +1,14 @@
+import { Box } from '@mantine/core';
 import { useState } from 'react';
 import { DragDropContext, resetServerContext } from 'react-beautiful-dnd';
 import TodoCategory from '~/components/pages/todos/TodoCategory';
 
-export default function TodoList({ data }) {
+const action = async () => {};
+
+export default function TodoList({ todos }) {
   resetServerContext();
 
-  const lists = {
-    todo: [
-      {
-        position: 6,
-        mass: 12.011,
-        symbol: 'C',
-        name: 'Col1Test1',
-      },
-      {
-        position: 7,
-        mass: 14.007,
-        symbol: 'N',
-        name: 'Col1Test2',
-      },
-      {
-        position: 39,
-        mass: 88.906,
-        symbol: 'Y',
-        name: 'Col1Test3',
-      },
-      {
-        position: 56,
-        mass: 137.33,
-        symbol: 'Ba',
-        name: 'Col1Test4',
-      },
-      {
-        position: 58,
-        mass: 140.12,
-        symbol: 'Ce',
-        name: 'Col1Test5',
-      },
-    ],
-    inProgress: [
-      {
-        position: 6,
-        mass: 12.011,
-        symbol: 'Z',
-        name: 'Col2Test1',
-      },
-      {
-        position: 7,
-        mass: 14.007,
-        symbol: 'T',
-        name: 'Col2Test2',
-      },
-      {
-        position: 39,
-        mass: 88.906,
-        symbol: 'V',
-        name: 'Col2Test3',
-      },
-      {
-        position: 56,
-        mass: 137.33,
-        symbol: 'TK',
-        name: 'Col2Test4',
-      },
-      {
-        position: 58,
-        mass: 140.12,
-        symbol: 'IJ',
-        name: 'Col2Test5',
-      },
-    ],
-    done: [
-      {
-        position: 56,
-        mass: 137.33,
-        symbol: 'LL',
-        name: 'Col3Test1',
-      },
-      {
-        position: 58,
-        mass: 140.12,
-        symbol: 'PP',
-        name: 'Col3Test2',
-      },
-    ],
-  };
-
-  const category = Object.keys(lists);
+  const categories = Object.keys(todos);
 
   const removeFormList = (list, index) => {
     const result = [...list];
@@ -100,7 +22,7 @@ export default function TodoList({ data }) {
     return result;
   };
 
-  const [todoList, setTodoList] = useState(lists);
+  const [todoList, setTodoList] = useState(todos);
 
   const handleDragEnd = ({ destination, source }) => {
     if (!destination) return;
@@ -114,20 +36,25 @@ export default function TodoList({ data }) {
     const [newSourceCategory, removedCard] = removeFormList(sourceCategory, source.index);
     // 기존 배열을 새 배열로 대체
     copiedList[source.droppableId] = newSourceCategory;
-
+    //드래그가 끝난 카테고리 리스트
     const destinationCategory = copiedList[destination.droppableId];
+    // 드래그한 아이템을 기존 배열에 추가
     copiedList[destination.droppableId] = addToList(destinationCategory, destination.index, removedCard);
+    // 드래그한 아이템의 progress 상태 변경
+    removedCard.progress = destination.droppableId;
+    // 아이템들의 index값 변경
+    categories.map(category => copiedList[category].map((item, currentIndex) => (item.index = currentIndex)));
 
     setTodoList(copiedList);
   };
 
   return (
     <DragDropContext onDragEnd={handleDragEnd}>
-      <div style={{ display: 'flex', height: '100%', padding: '20px 0' }}>
-        {category.map(categoryKey => (
-          <TodoCategory key={categoryKey} prefix={categoryKey} category={todoList[categoryKey]} />
+      <Box sx={{ display: 'flex', height: '100%' }} py={20}>
+        {categories.map(category => (
+          <TodoCategory key={category} prefix={category} category={todoList[category]} />
         ))}
-      </div>
+      </Box>
     </DragDropContext>
   );
 }
