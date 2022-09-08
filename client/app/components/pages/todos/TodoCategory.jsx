@@ -11,7 +11,7 @@ export default function TodoCategory({ category, prefix }) {
   const { wrapper, buttonWrapper, createCardInput } = classes;
   const { scrollIntoView, targetRef, scrollableRef } = useScrollIntoView({ duration: 0 });
 
-  const cards = category.map((card, index) => <TodoCard key={card.name} card={card} index={index} />);
+  const cards = category.map((card, index) => <TodoCard key={card.title} card={card} index={index} />);
 
   return (
     <Container size={300} px={20} m={0} sx={{ width: '100%' }}>
