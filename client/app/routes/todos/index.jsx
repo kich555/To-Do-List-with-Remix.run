@@ -6,11 +6,22 @@ import { getTodos } from '~/models/todo.server';
 export const loader = async () => {
   const todos = await getTodos();
 
-  return json({ todos });
+  const newTodos = todos.reduce((acc, cur) => {
+    if (!acc[cur.progress]) {
+      acc[cur.progress] = [cur];
+    } else {
+      acc[cur.progress].push(cur);
+    }
+
+    return { ...acc };
+  }, {});
+  console.log('->', newTodos);
+
+  return json({ newTodos });
 };
 
 export default function TodosIndexRoute() {
-  const { todos } = useLoaderData();
-  console.log(todos);
-  return <TodoList todos={todos} />;
+  const { newTodos } = useLoaderData();
+  console.log('todos', newTodos);
+  return <TodoList todos={newTodos} />;
 }
