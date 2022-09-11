@@ -3,7 +3,7 @@ import { createStyles } from '@mantine/core';
 const todoProgressStyles = createStyles(theme => ({
   wrapper: {
     width: '100%',
-    maxHeight: '460px',
+    maxHeight: '464px',
     overflowY: 'auto',
   },
   buttonWrapper: {
@@ -15,6 +15,9 @@ const todoProgressStyles = createStyles(theme => ({
     height: '54px',
     marginBottom: '10px',
     borderRadius: '4px',
+  },
+  badge: {
+    cursor: 'pointer',
   },
 }));
 
