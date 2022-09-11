@@ -1,15 +1,11 @@
 import { Box } from '@mantine/core';
 import { useState } from 'react';
 import { DragDropContext, resetServerContext } from 'react-beautiful-dnd';
-import TodoCategory from '~/components/pages/todos/TodoCategory';
-
-const action = async () => {};
+import TodoProgress from '~/components/pages/todos/TodoProgress';
 
 export default function TodoList({ todos }) {
   resetServerContext();
-
-  const categories = Object.keys(todos);
-
+  const progress = ['todo', 'inProgress', 'done'];
   const removeFormList = (list, index) => {
     const result = [...list];
     const [removed] = result.splice(index, 1);
@@ -43,7 +39,7 @@ export default function TodoList({ todos }) {
     // 드래그한 아이템의 progress 상태 변경
     removedCard.progress = destination.droppableId;
     // 아이템들의 index값 변경
-    categories.map(category => copiedList[category].map((item, currentIndex) => (item.index = currentIndex)));
+    progress.map(category => copiedList[category].map((item, currentIndex) => (item.index = currentIndex)));
 
     setTodoList(copiedList);
   };
@@ -51,8 +47,8 @@ export default function TodoList({ todos }) {
   return (
     <DragDropContext onDragEnd={handleDragEnd}>
       <Box sx={{ display: 'flex', height: '100%' }} py={20}>
-        {categories.map(category => (
-          <TodoCategory key={category} prefix={category} category={todoList[category]} />
+        {progress.map(progress => (
+          <TodoProgress key={progress} prefix={progress} progress={todoList[progress]} />
         ))}
       </Box>
     </DragDropContext>
