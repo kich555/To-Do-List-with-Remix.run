@@ -1,6 +1,6 @@
 import { createStyles } from '@mantine/core';
 
-const todoCategoryStyles = createStyles(theme => ({
+const todoProgressStyles = createStyles(theme => ({
   wrapper: {
     width: '100%',
     maxHeight: '460px',
@@ -18,4 +18,4 @@ const todoCategoryStyles = createStyles(theme => ({
   },
 }));
 
-export default todoCategoryStyles;
+export default todoProgressStyles;
