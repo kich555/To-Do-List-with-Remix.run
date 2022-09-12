@@ -1,5 +1,5 @@
 import { createStyles } from '@mantine/core';
-import { flexCol, centered } from '../commonStyle';
+import { flexCol, centered } from '../commonStyles';
 
 const todoDetailStyles = createStyles(theme => ({
   descriptionWrapper: {
