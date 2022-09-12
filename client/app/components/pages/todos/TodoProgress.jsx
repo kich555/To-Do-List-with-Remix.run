@@ -1,4 +1,4 @@
-import { Badge, Box, Button, Container, Input, Text, Textarea, Title } from '@mantine/core';
+import { Badge, Box, Button, Container, Group, Input, Text, Textarea, Title } from '@mantine/core';
 import { useScrollIntoView } from '@mantine/hooks';
 import { Form, useSubmit } from '@remix-run/react';
 import { useState } from 'react';
@@ -10,7 +10,7 @@ export default function TodoProgress({ progress, prefix }) {
   const [isClicked, setIsClicked] = useState(false);
   const [category, setCategory] = useState('life');
   const { classes } = todoProgressStyles();
-  const { wrapper, buttonWrapper, createCardInput, badge } = classes;
+  const { wrapper, createCardInput, badge } = classes;
   const { scrollIntoView, targetRef, scrollableRef } = useScrollIntoView({ duration: 0 });
 
   const cards = progress.map((card, index) => <TodoCard key={card.title} card={card} index={index} onClick />);
@@ -41,22 +41,22 @@ export default function TodoProgress({ progress, prefix }) {
                 <Form method="post" onSubmit={handleCreateTodo}>
                   <Textarea placeholder="Enter a title for this card..." name="title" className={createCardInput} />
                   <Box sx={{ display: 'flex', justifyContent: 'flex-end' }} pt={12}>
-                    <Badge component="button" variant={category === 'life' ? 'filled' : 'light'} className={badge} onClick={() => setCategory('life')}>
+                    <Badge variant={category === 'life' ? 'filled' : 'light'} className={badge} onClick={() => setCategory('life')}>
                       life
                     </Badge>
-                    <Badge component="button" color="teal" variant={category === 'work' ? 'filled' : 'light'} className={badge} ml={8} onClick={() => setCategory('work')}>
+                    <Badge color="teal" variant={category === 'work' ? 'filled' : 'light'} className={badge} ml={8} onClick={() => setCategory('work')}>
                       work
                     </Badge>
                   </Box>
                   <Input type="hidden" name="progress" value={prefix} />
                   <Input type="hidden" name="index" value={progress.length} />
                   <Input type="hidden" name="category" value={category} />
-                  <Box mt={20} className={buttonWrapper}>
+                  <Group spacing={10} noWrap={true} mt={20}>
                     <Button type="submit">Add Card</Button>
                     <Button color="red" onClick={() => setIsClicked(false)}>
                       Cancel
                     </Button>
-                  </Box>
+                  </Group>
                 </Form>
               ) : (
                 <Button
