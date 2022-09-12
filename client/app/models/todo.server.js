@@ -5,6 +5,10 @@ export async function getTodos() {
     return db.todo.findMany();
 }
 
+export async function getSingleTodo (id) {
+    return db.todo.findUnique({where: {id}})
+}
+
 export async function updateTodos(todoList) {
     const newTodos =  Object.values(todoList).reduce((acc,cur)=> {
      return [...acc, ...cur]   
