@@ -6,9 +6,8 @@ import todoCardStyles from '~/styles/todos/todoCardStyles';
 
 export default function TodoCard({ card, index }) {
   const [opened, setOpened] = useState(false);
-  const { classes, cx } = todoCardStyles();
+  const { classes, cx, theme } = todoCardStyles();
   const { item, itemDragging, inner } = classes;
-  console.log('card', card.id);
   const navigate = useNavigate();
 
   const handleClick = () => {
@@ -51,7 +50,16 @@ export default function TodoCard({ card, index }) {
           </Box>
         )}
       </Draggable>
-      <Modal opened={opened} onClose={handleModalClose} title={card.title}>
+      <Modal
+        size="lg"
+        centered
+        overlayColor={theme.colorScheme === 'dark' ? theme.colors.dark[9] : theme.colors.gray[2]}
+        overlayOpacity={0.55}
+        overlayBlur={3}
+        opened={opened}
+        onClose={handleModalClose}
+        // title={card.title}
+      >
         <Outlet />
       </Modal>
     </>
