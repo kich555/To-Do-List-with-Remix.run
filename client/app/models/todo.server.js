@@ -26,3 +26,11 @@ export async function createTodo({ title, progress, category, index }) {
         index
     }})
 }
+
+export async function deleteTodo( id ) {
+    return db.todo.delete({
+        where: {
+            id
+        }
+    })
+}
