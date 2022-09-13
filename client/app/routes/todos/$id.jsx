@@ -2,7 +2,7 @@ import { Badge, Box, Button, Container, Divider, Textarea, Title, Group, Input }
 import { json, redirect } from '@remix-run/node';
 import { Form, useLoaderData } from '@remix-run/react';
 import { useState } from 'react';
-import { getSingleTodo, deleteTodo } from '~/models/todo.server';
+import { getSingleTodo, deleteTodo, updateSingleTodo } from '~/models/todo.server';
 import todoDetailStyles from '~/styles/todos/todoDetailStyles';
 
 export const loader = async ({ params }) => {
@@ -16,11 +16,13 @@ export const action = async ({ request }) => {
   const { _action, ...values } = Object.fromEntries(formData);
 
   if (_action === 'update') {
+    await updateSingleTodo({ ...values });
+    return redirect(`/todos/${values._id}`);
   }
   if (_action === 'delete') {
-    await deleteTodo(values._id);
+    await deleteTodo({ ...values });
+    return redirect('/todos');
   }
-  return redirect('/todos');
 };
 
 export default function $idRoute() {
@@ -51,7 +53,9 @@ export default function $idRoute() {
           {editDescription ? (
             <Form method="post">
               <Box className={formWrapper}>
-                <Textarea autoFocus autosize variant="unstyled" styles={{ root: textArea }} />
+                <Input type="hidden" name="_id" value={id} />
+                <Input type="hidden" name="category" value={todoCategory} />
+                <Textarea autoFocus autosize variant="unstyled" styles={{ root: textArea }} name="description" />
                 <Group spacing={10} noWrap={true} mt={20} className={buttonGroup}>
                   <Button type="submit" name="_action" value="update">
                     Save
