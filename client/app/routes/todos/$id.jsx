@@ -1,4 +1,4 @@
-import { Badge, Box, Button, Container, Divider, Textarea, Title, Group } from '@mantine/core';
+import { Badge, Box, Button, Container, Divider, Textarea, Title, Group, Input } from '@mantine/core';
 import { json } from '@remix-run/node';
 import { Form, useLoaderData } from '@remix-run/react';
 import { useState } from 'react';
@@ -6,13 +6,15 @@ import { getSingleTodo } from '~/models/todo.server';
 import todoDetailStyles from '~/styles/todos/todoDetailStyles';
 
 export const loader = async ({ params }) => {
-  const { id } = params;
-  const todo = await getSingleTodo(id);
+  const { _id } = params;
+  const todo = await getSingleTodo(_id);
   return json(todo);
 };
 
+export const action = async ({ request }) => {};
+
 export default function $idRoute() {
-  const { title, category, description } = useLoaderData();
+  const { id, title, category, description } = useLoaderData();
   const [todoCategory, setTodoCategory] = useState(category);
   const [editDescription, setEditDescription] = useState(false);
   const { classes, cx } = todoDetailStyles();
@@ -54,11 +56,14 @@ export default function $idRoute() {
         </Box>
       )}
       <Divider mt={24} />
-      <Box sx={{ display: 'flex', justifyContent: 'end' }}>
-        <Button mt={20} color="red">
-          Delete
-        </Button>
-      </Box>
+      <Form action="/delete" method="post">
+        <Box sx={{ display: 'flex', justifyContent: 'end' }}>
+          <Input type="hidden" name="_id" value={id} />
+          <Button type="submit" mt={20} color="red" aria-label="delete">
+            Delete
+          </Button>
+        </Box>
+      </Form>
       {/* <Box >{todoCategory}</Box> */}
     </Container>
   );
