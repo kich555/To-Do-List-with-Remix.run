@@ -12,8 +12,7 @@ export default function TodoProgress({ progress, prefix }) {
   const { classes } = todoProgressStyles();
   const { wrapper, createCardInput, badge } = classes;
   const { scrollIntoView, targetRef, scrollableRef } = useScrollIntoView({ duration: 0 });
-
-  const cards = progress.map((card, index) => <TodoCard key={card.title} card={card} index={index} onClick />);
+  const cards = progress.map((card, index) => <TodoCard key={card.id} card={card} index={index} onClick />);
 
   const submit = useSubmit();
 
