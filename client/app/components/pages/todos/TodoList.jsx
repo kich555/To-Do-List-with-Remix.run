@@ -1,5 +1,5 @@
 import { Box } from '@mantine/core';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { DragDropContext, resetServerContext } from 'react-beautiful-dnd';
 import TodoProgress from '~/components/pages/todos/TodoProgress';
 
@@ -19,6 +19,10 @@ export default function TodoList({ todos }) {
   };
 
   const [todoList, setTodoList] = useState(todos);
+
+  useEffect(() => {
+    setTodoList(todos);
+  }, [todos]);
 
   const handleDragEnd = ({ destination, source }) => {
     if (!destination) return;
