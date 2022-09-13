@@ -5,7 +5,6 @@ import { createTodo, getTodos } from '~/models/todo.server';
 
 export const loader = async () => {
   const todos = await getTodos();
-
   const newTodos = todos.reduce((acc, cur) => {
     if (!acc[cur.progress]) {
       acc[cur.progress] = [cur];
@@ -15,21 +14,23 @@ export const loader = async () => {
 
     return { ...acc };
   }, {});
+
   return json({ newTodos });
 };
 
 export const action = async ({ request }) => {
   const formData = await request.formData();
-  const title = formData.get('title');
-  const progress = formData.get('progress');
-  const category = formData.get('category');
-  const index = Number(formData.get('index'));
+  const values = Object.fromEntries(formData);
+  // values.index type 변경
+  values.index *= 1;
+
+  const { title, progress, category, index } = values;
 
   if (typeof title !== 'string' || title.length === 0) {
     return json({ errors: { title: 'Title is required' } }, { status: 400 });
   }
 
-  await createTodo({ title, progress, category, index });
+  await createTodo(values);
 
   return redirect('/todos');
 };
