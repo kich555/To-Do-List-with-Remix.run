@@ -16,30 +16,25 @@ export async function updateTodos(todoList) {
     return db.todo.updateMany({})
 }
 
-export async function updateSingleTodo ({ _id, description, category }) {
-    const result = await db.todo.findUnique({ where: { id: _id } })
-    if (_id !== result?.id) return 
-    return db.todo.update({
-        where: { id: _id },
-        data: { description, category }
-    })
+export async function updateSingleTodo ({ _id: id, ...data }) {
+    const result = await db.todo.findUnique({ where: { id } })
+    if (id !== result?.id) return 
+    return db.todo.update({ where: { id }, data })
 }
 
-export async function createTodo({ title, progress, category, index }) {
+export async function createTodo({ ...data }) {
+    console.log('data->',data)
     return db.todo.create({ data: {
-        title,
+        ...data, 
         description:'',
-        done: progress ==='done' ? true: false,
-        progress,
-        category,
-        index
+        done: data.progress ==='done' ? true: false,
     }})
 }
 
-export async function deleteTodo({ _id }) {
-    const result = await db.todo.findUnique({ where: { id: _id } })
-    if (_id !== result?.id) return 
+export async function deleteTodo({ _id: id }) {
+    const result = await db.todo.findUnique({ where: { id } })
+    if (id !== result?.id) return 
     return db.todo.delete({
-        where: { id: _id }
+        where: { id }
     })
 }
