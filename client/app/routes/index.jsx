@@ -23,7 +23,7 @@ export default function MainRoute() {
           Build fully functional accessible web applications faster than ever – These stacks are the ones I'm having fun with these days! Make your own website easily and quickly!
         </Text>
 
-        <Button component={Link} to="/todos" variant="gradient" size="xl" radius="xl" className={control}>
+        <Button type="button" component={Link} to="/todos" variant="gradient" size="xl" radius="xl" className={control}>
           Get started
         </Button>
       </Container>
