@@ -30,7 +30,7 @@ export const action = async ({ request }) => {
     return json({ errors: { title: 'Title is required' } }, { status: 400 });
   }
 
-  await createTodo(values);
+  await createTodo({ ...values });
 
   return redirect('/todos');
 };
