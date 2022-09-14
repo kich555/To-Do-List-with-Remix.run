@@ -1,17 +1,15 @@
 import { createStyles } from '@mantine/core';
-import { flexCol, centered } from '../commonStyles';
+import { flexCol, centered, pointer } from '../commonStyles';
 
 const todoDetailStyles = createStyles(theme => ({
-  descriptionWrapper: {
+  formWrapper: {
     minHeight: '320px',
   },
+  updateBox: flexCol,
+  editBox: centered,
+  badge: pointer,
+  descriptionBox: { ...flexCol, ...pointer, justifyContent: 'space-between' },
 
-  formWrapper: flexCol,
-  centered,
-  textArea: {
-    width: '100%',
-    height: '280px',
-  },
   buttonGroup: {
     alignSelf: 'flex-end',
     justifySelf: 'flex-end',
