@@ -51,7 +51,9 @@ export default function TodoProgress({ progress, prefix }) {
                   <Input type="hidden" name="index" value={progress.length} />
                   <Input type="hidden" name="category" value={category} />
                   <Group spacing={10} noWrap={true} mt={20}>
-                    <Button type="submit">Add Card</Button>
+                    <Button type="submit" name="_action" value="create">
+                      Add Card
+                    </Button>
                     <Button type="button" color="red" onClick={() => setIsClicked(false)}>
                       Cancel
                     </Button>
