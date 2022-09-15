@@ -1,7 +1,7 @@
 import { useLoaderData } from '@remix-run/react';
 import { json, redirect } from '@remix-run/node';
 import TodoList from '~/components/pages/todos/TodoList';
-import { createTodo, getTodos } from '~/models/todo.server';
+import { createTodo, updateTodos, getTodos } from '~/models/todo.server';
 
 export const loader = async () => {
   const todos = await getTodos();
@@ -20,18 +20,24 @@ export const loader = async () => {
 
 export const action = async ({ request }) => {
   const formData = await request.formData();
-  const values = Object.fromEntries(formData);
-  // values.index type 변경
-  values.index *= 1;
+  const { _action, ...values } = Object.fromEntries(formData);
 
-  const { title, progress, category, index } = values;
+  if (_action === 'create') {
+    // values.index type 변경
+    values.index *= 1;
 
-  if (typeof title !== 'string' || title.length === 0) {
-    return json({ errors: { title: 'Title is required' } }, { status: 400 });
+    const { title, progress, category, index } = values;
+
+    if (typeof title !== 'string' || title.length === 0) {
+      return json({ errors: { title: 'Title is required' } }, { status: 400 });
+    }
+
+    await createTodo({ ...values });
   }
 
-  await createTodo({ ...values });
-
+  if (_action === 'drop') {
+    console.log('values', values);
+  }
   return redirect('/todos');
 };
 
