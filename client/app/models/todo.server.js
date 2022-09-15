@@ -10,10 +10,10 @@ export async function getSingleTodo (id) {
 }
 
 export async function updateTodos(todoList) {
-    const newTodos =  Object.values(todoList).reduce((acc,cur)=> {
-        return [...acc, ...cur]   
-    })
-    return db.todo.updateMany({})
+    
+    return db.todo.updateMany({
+        where:{},
+        data: {}})
 }
 
 export async function updateSingleTodo ({ _id: id, ...data }) {
