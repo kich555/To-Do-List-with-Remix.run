@@ -58,7 +58,6 @@ export default function TodoCard({ card, index }) {
         overlayBlur={3}
         opened={opened}
         onClose={handleModalClose}
-        // title={card.title}
       >
         <Outlet />
       </Modal>

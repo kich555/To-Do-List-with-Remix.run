@@ -1,7 +1,7 @@
 import { useLoaderData } from '@remix-run/react';
 import { json, redirect } from '@remix-run/node';
 import TodoList from '~/components/pages/todos/TodoList';
-import { createTodo, updateTodos, getTodos } from '~/models/todo.server';
+import { createTodo, getTodos } from '~/models/todo.server';
 
 export const loader = async () => {
   const todos = await getTodos();
