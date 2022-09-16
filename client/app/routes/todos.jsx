@@ -26,7 +26,7 @@ export const action = async ({ request }) => {
     // values.index type 변경
     values.index *= 1;
 
-    const { title, progress, category, index } = values;
+    const { title } = values;
 
     if (typeof title !== 'string' || title.length === 0) {
       return json({ errors: { title: 'Title is required' } }, { status: 400 });
