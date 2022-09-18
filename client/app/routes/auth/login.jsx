@@ -1,10 +1,8 @@
 import { Button, Input, Space } from '@mantine/core';
-import { json } from '@remix-run/node';
-import { Form } from '@remix-run/react';
-
-const badRequest = data => {
-  json(data, { status: 400 });
-};
+import { redirect } from '@remix-run/node';
+import { Form, useActionData } from '@remix-run/react';
+import authStyles from '~/styles/auth/authstyles';
+import { badRequest, validateStringInputType } from '~/utils/actionHandler.server';
 
 function validateUsername(username) {
   if (typeof username !== 'string' || username.length < 3) {
@@ -18,39 +16,68 @@ function validatePassword(password) {
   }
 }
 
-const validateStringInputType = ({ ...values }) => {
-  const arrayedObj = Object.keys(values);
-  arrayedObj.map(value => {
-    if (typeof value !== 'string') {
-      return badRequest({
-        formError: `${value}'s should be a string type`,
-      });
-    }
-  });
-};
-
 export const action = async ({ request }) => {
-  const formData = request.formData();
-  const values = Object.fromEntries(formData);
-  const { username, password } = values;
-  validateStringInputType(values);
+  const formData = await request.formData();
+  const fields = Object.fromEntries(formData);
+  const { username, password } = fields;
+
+  // check input type is string
+  validateStringInputType(fields);
+
+  // create field error message
   const fieldErrors = {
     username: validateUsername(username),
     password: validatePassword(password),
   };
 
-  if (Object.values(fieldErrors).some(Boolean)) {
-    return badRequest({ fieldErrors, values });
+  // check field has any error
+  const arrayedObj = Object.values(fieldErrors);
+  if (arrayedObj.some(Boolean)) {
+    return badRequest({ fieldErrors, fields });
   }
+  return redirect('/auth/login');
 };
 
-export default function LoginRoute(params) {
+export default function LoginRoute() {
+  const actionData = useActionData();
+  const { classes } = authStyles();
+  const { label, input, errorInput, errorMessage, button } = classes;
+
   return (
     <Form method="post">
       <Space h={20} />
-      <Input name="username" sx={{ maxWidth: '240px' }} my={8} />
-      <Input name="password" type="password" sx={{ maxWidth: '240px' }} my={8} />
-      <Button variant="gradient" sx={{ width: '100%', maxWidth: '240px' }} my={8}>
+
+      <Input.Label htmlFor="username-input" mt={4} className={label}>
+        <Input
+          id="username-input"
+          name="username"
+          type="text"
+          defaultValue={actionData?.fields?.username}
+          aria-label="username"
+          aria-invalid={Boolean(actionData?.fieldErrors?.username)}
+          aria-errormessage={actionData?.fieldErrors?.username && 'username-error'}
+          placeholder="username"
+          className={input}
+          styles={{ input: actionData?.fieldErrors?.username && errorInput }}
+        />
+        <Input.Error className={errorMessage}>{actionData?.fieldErrors?.username} </Input.Error>
+      </Input.Label>
+      <Input.Label htmlFor="password-input" mt={4} className={label}>
+        <Input
+          id="password-input"
+          name="password"
+          type="password"
+          defaultValue={actionData?.fields?.password}
+          aria-label="password"
+          aria-invalid={Boolean(actionData?.fieldErrors?.password)}
+          aria-errormessage={actionData?.fieldErrors?.password && 'password-error'}
+          placeholder="password"
+          className={input}
+          styles={{ input: actionData?.fieldErrors?.password && errorInput }}
+        />
+        <Input.Error className={errorMessage}>{actionData?.fieldErrors?.password} </Input.Error>
+      </Input.Label>
+      <Button type="submit" variant="gradient" className={button} mt={8}>
         Log in
       </Button>
       <Space h={60} />
