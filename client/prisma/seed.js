@@ -2,9 +2,19 @@ import { PrismaClient } from "@prisma/client";
 const db = new PrismaClient();
 
 async function seed() {
+const kich = await db.user.create({
+  data: {
+    username: 'kich',
+     // this is a hashed version of "twixrox"
+    passwordHash: "$2b$10$K7L1OJ45/4Y2nIvhRVpCe.FSmhDdWoXehVzJptJ/op0lSsvqNu/1u",
+  }
+})
+
+
   await Promise.all(
     getTodos().map((todo) => {
-      return db.todo.create({ data: todo });
+      const data = {createrId: kich.id, ...todo}
+      return db.todo.create({ data });
     })
   );
 }
