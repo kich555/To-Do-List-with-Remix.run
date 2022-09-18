@@ -1,9 +1,8 @@
 import { Button, Input, Space } from '@mantine/core';
-import { redirect } from '@remix-run/node';
 import { Form, useActionData } from '@remix-run/react';
 import authStyles from '~/styles/auth/authstyles';
 import { badRequest, validateStringInputType } from '~/utils/actionHandler.server';
-import { login } from '~/utils/session.server';
+import { login, createUserSession } from '~/utils/session.server';
 
 function validateUsername(username) {
   if (typeof username !== 'string' || username.length < 3) {
@@ -21,6 +20,7 @@ export const action = async ({ request }) => {
   const formData = await request.formData();
   const fields = Object.fromEntries(formData);
   const { username, password } = fields;
+  const redirectTo = '/todos';
 
   // check input type is string
   validateStringInputType(fields);
@@ -38,15 +38,14 @@ export const action = async ({ request }) => {
   }
 
   const user = await login({ username, password });
-  console.log('user->', user);
+
   if (!user) {
     return badRequest({
       fields,
       formError: `Username/Password combination is incorrect`,
     });
   }
-  // if there is a user, create their session and redirect to /jokes
-  return redirect('/auth/login');
+  return createUserSession(user.id, redirectTo);
 };
 
 export default function LoginRoute() {
