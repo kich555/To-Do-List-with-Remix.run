@@ -1,9 +1,10 @@
 import { useTheme } from '@emotion/react';
 import { Image, Box, Container, Divider, Modal, Title, ActionIcon, Badge } from '@mantine/core';
-import { Link } from '@remix-run/react';
+import { Link, useLocation } from '@remix-run/react';
 
 export default function AuthModal({ children, open }) {
   const theme = useTheme();
+  const { pathname } = useLocation();
 
   return (
     <Modal
@@ -21,21 +22,22 @@ export default function AuthModal({ children, open }) {
       <Container>
         <Box>
           <Box sx={{ position: 'relative' }}>
-            <Title align="center">Login</Title>
+            <Title align="center">{pathname.includes('login') ? 'Login' : 'Register'}</Title>
             <ActionIcon component={Link} to="/" size={32} sx={{ position: 'absolute', right: 0, top: 8 }}>
               <Image src="https://img.icons8.com/material-rounded/48/000000/left.png" />
             </ActionIcon>
           </Box>
 
-          <Box sx={{ display: 'flex', justifyContent: 'flex-end' }} pt={12}>
-            <Badge component={Link} to="login" size="lg">
+          <Box sx={{ display: 'flex', justifyContent: 'space-between', maxWidth: '200px', margin: 'auto' }} pt={12}>
+            <Badge component={Link} to="login" size="lg" sx={{ width: '96px', cursor: 'pointer' }}>
               Login
             </Badge>
-            <Badge component={Link} to="register" size="lg" color="teal" ml={8}>
+            <Badge component={Link} to="register" size="lg" color="teal" sx={{ width: '96px', cursor: 'pointer' }}>
               Register
             </Badge>
           </Box>
         </Box>
+
         <Divider mt={24} />
         <Box align="center" mt={24}>
           {children}
