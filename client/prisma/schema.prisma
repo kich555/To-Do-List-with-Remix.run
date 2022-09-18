@@ -12,6 +12,8 @@ datasource db {
 
 model Todo {
   id          String   @id @default(uuid())
+  createrId   String
+  creater     User     @relation(fields: [createrId], references: [id], onDelete: Cascade)
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
   title       String
@@ -20,4 +22,13 @@ model Todo {
   category    String
   progress    String
   index       Int
+}
+
+model User {
+  id           String   @id @default(uuid())
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  username     String   @unique
+  passwordHash String
+  todos        Todo[]
 }
