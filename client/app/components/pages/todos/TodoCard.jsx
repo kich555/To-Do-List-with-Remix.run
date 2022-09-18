@@ -11,8 +11,8 @@ export default function TodoCard({ card, index }) {
   const navigate = useNavigate();
 
   const handleClick = () => {
-    setOpened(true);
     navigate(`/todos/${card.id}`);
+    setOpened(true);
   };
 
   const handleModalClose = () => {
@@ -51,6 +51,9 @@ export default function TodoCard({ card, index }) {
         )}
       </Draggable>
       <Modal
+        transition="rotate-left"
+        transitionDuration={300}
+        transitionTimingFunction="ease"
         size="lg"
         centered
         overlayColor={theme.colorScheme === 'dark' ? theme.colors.dark[9] : theme.colors.gray[2]}
