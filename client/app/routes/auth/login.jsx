@@ -3,6 +3,7 @@ import { redirect } from '@remix-run/node';
 import { Form, useActionData } from '@remix-run/react';
 import authStyles from '~/styles/auth/authstyles';
 import { badRequest, validateStringInputType } from '~/utils/actionHandler.server';
+import { login } from '~/utils/session.server';
 
 function validateUsername(username) {
   if (typeof username !== 'string' || username.length < 3) {
@@ -35,6 +36,16 @@ export const action = async ({ request }) => {
   if (arrayedObj.some(Boolean)) {
     return badRequest({ fieldErrors, fields });
   }
+
+  const user = await login({ username, password });
+  console.log('user->', user);
+  if (!user) {
+    return badRequest({
+      fields,
+      formError: `Username/Password combination is incorrect`,
+    });
+  }
+  // if there is a user, create their session and redirect to /jokes
   return redirect('/auth/login');
 };
 
