@@ -5,3 +5,9 @@ export async function checkUser(username) {
         where: { username },
       });
 }
+
+export async function findUser(username) {
+  return db.user.findUnique({
+    where: {username}
+})
+}
