@@ -43,9 +43,5 @@ export const action = async ({ request }) => {
 
 export default function TodosIndexRoute() {
   const { newTodos } = useLoaderData();
-  return (
-    <section style={{ minHeight: '100vh' }}>
-      <TodoList todos={newTodos} />
-    </section>
-  );
+  return <TodoList todos={newTodos} />;
 }
