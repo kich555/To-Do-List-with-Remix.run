@@ -1,7 +1,7 @@
 import { createCookieSessionStorage, redirect } from '@remix-run/node';
 import bcrypt from 'bcryptjs/dist/bcrypt';
-import { findUser } from '~/models/user.server';
-import { findUserWithId } from '~/models/user.server';
+import { findUser, findUserWithId, createUser  } from '~/models/user.server';
+
 
 export async function login({ username, password }) {
   // find User
@@ -22,8 +22,15 @@ export async function logout(request) {
   return redirect('/', {
     headers: {
       "Set-Cookie": await storage.destroySession(session)
-    }
+    },
   });
+};
+
+export async function register({ username, password }) {
+  const passwordHash = await bcrypt.hash(password, 10);
+  const user = await createUser({ username, passwordHash });
+  const { id } = user;
+  return { id, username };
 };
 
 const sessionSecret = process.env.SESSION_SECRET;
