@@ -32,6 +32,7 @@
     "@remix-run/serve": "^1.7.0",
     "esbuild-register": "^3.3.3",
     "eslint": "^8.20.0",
+    "eslint-plugin-import": "^2.26.0",
     "prisma": "^4.3.1"
   },
   "engines": {
