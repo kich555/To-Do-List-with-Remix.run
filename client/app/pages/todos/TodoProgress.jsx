@@ -12,7 +12,7 @@ export default function TodoProgress({ progress, prefix }) {
   const { classes } = todoProgressStyles();
   const { wrapper, createCardInput, badge } = classes;
   const { scrollIntoView, targetRef, scrollableRef } = useScrollIntoView({ duration: 0 });
-  const cards = progress.map((card, index) => <TodoCard key={card.id} card={card} index={index} onClick />);
+  const cards = progress?.map((card, index) => <TodoCard key={card.id} card={card} index={index} onClick />);
 
   const submit = useSubmit();
 
@@ -48,7 +48,7 @@ export default function TodoProgress({ progress, prefix }) {
                     </Badge>
                   </Box>
                   <Input type="hidden" name="progress" value={prefix} />
-                  <Input type="hidden" name="index" value={progress.length} />
+                  <Input type="hidden" name="index" value={progress?.length} />
                   <Input type="hidden" name="category" value={category} />
                   <Group spacing={10} noWrap={true} mt={20}>
                     <Button type="submit" name="_action" value="create">

@@ -35,9 +35,15 @@ const addToList = (list, index, element) => {
  응집도를 위해 TodoList.jsx에 선언 해둠
    */
 const objectToArray = obj => {
-  const arrayedObject = Object.values(obj).reduce((acc, cur) => {
-    return [...acc, ...cur];
-  });
+  const arrayedObject = Object.values(obj);
+
+  if (arrayedObject.length === 0) {
+    return arrayedObject;
+  } else {
+    arrayedObject.reduce((acc, cur) => {
+      return [...acc, ...cur];
+    });
+  }
 
   return arrayedObject;
 };

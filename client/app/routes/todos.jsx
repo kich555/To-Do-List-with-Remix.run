@@ -11,15 +11,24 @@ export const loader = async ({ request }) => {
   if (!user) return redirect('/auth/login');
 
   const todos = await getUserTodos(user);
-  const newTodos = todos.reduce((acc, cur) => {
-    if (!acc[cur.progress]) {
-      acc[cur.progress] = [cur];
-    } else {
-      acc[cur.progress].push(cur);
-    }
 
-    return { ...acc };
-  }, {});
+  const getNewTodos = () => {
+    if (todos.length === 0) {
+      return [];
+    } else {
+      return todos?.reduce((acc, cur) => {
+        if (!acc[cur.progress]) {
+          acc[cur.progress] = [cur];
+        } else {
+          acc[cur.progress].push(cur);
+        }
+
+        return { ...acc };
+      }, {});
+    }
+  };
+
+  const newTodos = getNewTodos();
 
   return json({ user, newTodos });
 };
