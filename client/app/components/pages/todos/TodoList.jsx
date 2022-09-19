@@ -1,4 +1,4 @@
-import { Box, Input } from '@mantine/core';
+import { Box, Input, Button, Text } from '@mantine/core';
 import { Form } from '@remix-run/react';
 import { useEffect, useCallback, useState, useRef, useMemo } from 'react';
 import { DragDropContext, resetServerContext } from 'react-beautiful-dnd';
@@ -42,7 +42,7 @@ const objectToArray = obj => {
   return arrayedObject;
 };
 
-export default function TodoList({ todos }) {
+export default function TodoList({ user, todos }) {
   const [todoList, setTodoList] = useState(todos);
   const dropFormRef = useRef();
   resetServerContext();
@@ -92,16 +92,26 @@ export default function TodoList({ todos }) {
   }, [handleDrop]);
 
   return (
-    <DragDropContext onDragEnd={handleDragEnd}>
-      <Box sx={{ display: 'flex', height: '100%' }} py={20}>
-        <Form ref={dropFormRef} method="post">
-          <Input type="hidden" name="_action" value="drop" />
-          <Input type="hidden" name="todoList" value={arrayedTodoList} />
+    <>
+      <Box>
+        <Text>{`Hi ${user.username}`}</Text>
+        <Form action="/logout" method="post">
+          <Button color="red" type="submit">
+            Logout
+          </Button>
         </Form>
-        {progress.map(progress => (
-          <TodoProgress key={progress} prefix={progress} progress={todoList[progress]} />
-        ))}
       </Box>
-    </DragDropContext>
+      <DragDropContext onDragEnd={handleDragEnd}>
+        <Box sx={{ display: 'flex', justifyContent: 'center', height: '100%' }} py={20}>
+          <Form ref={dropFormRef} method="post">
+            <Input type="hidden" name="_action" value="drop" />
+            <Input type="hidden" name="todoList" value={arrayedTodoList} />
+          </Form>
+          {progress.map(progress => (
+            <TodoProgress key={progress} prefix={progress} progress={todoList[progress]} />
+          ))}
+        </Box>
+      </DragDropContext>
+    </>
   );
 }
