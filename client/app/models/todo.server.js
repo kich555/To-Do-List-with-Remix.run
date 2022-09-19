@@ -1,8 +1,10 @@
 import { db } from '~/utils/db.server'
 
 
-export async function getTodos() {
-  return db.todo.findMany();
+export async function getUserTodos(user) {
+  return db.todo.findMany({
+    where: { creater: user }
+  });
 }
 
 export async function getSingleTodo (id) {
