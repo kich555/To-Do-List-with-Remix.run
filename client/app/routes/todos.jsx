@@ -2,6 +2,7 @@ import { useLoaderData } from '@remix-run/react';
 import { json, redirect } from '@remix-run/node';
 import TodoList from '~/components/pages/todos/TodoList';
 import { createTodo, getTodos } from '~/models/todo.server';
+import { requireUserId } from '~/utils/session.server';
 
 export const loader = async () => {
   const todos = await getTodos();
@@ -19,6 +20,7 @@ export const loader = async () => {
 };
 
 export const action = async ({ request }) => {
+  const userId = await requireUserId(request);
   const formData = await request.formData();
   const { _action, ...values } = Object.fromEntries(formData);
 
@@ -32,7 +34,7 @@ export const action = async ({ request }) => {
       return json({ errors: { title: 'Title is required' } }, { status: 400 });
     }
 
-    await createTodo({ ...values });
+    await createTodo({ ...values, userId });
   }
 
   if (_action === 'drop') {
