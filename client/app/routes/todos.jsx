@@ -1,11 +1,16 @@
 import { useLoaderData } from '@remix-run/react';
 import { json, redirect } from '@remix-run/node';
 import TodoList from '~/components/pages/todos/TodoList';
-import { createTodo, getTodos } from '~/models/todo.server';
-import { requireUserId } from '~/utils/session.server';
+import { createTodo, getUserTodos } from '~/models/todo.server';
+import { requireUserId, getUser } from '~/utils/session.server';
 
-export const loader = async () => {
-  const todos = await getTodos();
+export const loader = async ({ request }) => {
+  const user = await getUser(request);
+
+  // If user is undifined redirect to /auth/login
+  if (!user) return redirect('/auth/login');
+
+  const todos = await getUserTodos(user);
   const newTodos = todos.reduce((acc, cur) => {
     if (!acc[cur.progress]) {
       acc[cur.progress] = [cur];
@@ -16,7 +21,7 @@ export const loader = async () => {
     return { ...acc };
   }, {});
 
-  return json({ newTodos });
+  return json({ user, newTodos });
 };
 
 export const action = async ({ request }) => {
@@ -44,6 +49,6 @@ export const action = async ({ request }) => {
 };
 
 export default function TodosIndexRoute() {
-  const { newTodos } = useLoaderData();
-  return <TodoList todos={newTodos} />;
+  const { user, newTodos } = useLoaderData();
+  return <TodoList user={user} todos={newTodos} />;
 }
