@@ -2,7 +2,7 @@ import { Badge, Box, Modal, Text } from '@mantine/core';
 import { Outlet, useNavigate } from '@remix-run/react';
 import { useState } from 'react';
 import { Draggable } from 'react-beautiful-dnd';
-import todoCardStyles from '~/styles/todos/todoCardStyles';
+import todoCardStyles from '~/pages/todos/styles/todoCardStyles';
 
 export default function TodoCard({ card, index }) {
   const [opened, setOpened] = useState(false);

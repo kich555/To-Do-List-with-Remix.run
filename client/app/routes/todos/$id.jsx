@@ -3,7 +3,7 @@ import { json, redirect } from '@remix-run/node';
 import { Form, useLoaderData, useSubmit } from '@remix-run/react';
 import { useState } from 'react';
 import { getSingleTodo, deleteTodo, updateSingleTodo } from '~/models/todo.server';
-import todoDetailStyles from '~/styles/todos/todoDetailStyles';
+import todoDetailStyles from '~/pages/todos/styles/todoDetailStyles';
 
 export const loader = async ({ params }) => {
   const { id } = params;

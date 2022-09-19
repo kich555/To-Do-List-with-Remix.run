@@ -1,8 +1,8 @@
 import { useLoaderData } from '@remix-run/react';
 import { json, redirect } from '@remix-run/node';
-import TodoList from '~/components/pages/todos/TodoList';
 import { createTodo, getUserTodos } from '~/models/todo.server';
 import { requireUserId, getUser } from '~/utils/session.server';
+import TodoList from '~/pages/todos/TodoList';
 
 export const loader = async ({ request }) => {
   const user = await getUser(request);

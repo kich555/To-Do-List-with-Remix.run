@@ -1,8 +1,8 @@
-import { Box, Input, Button, Title, Space } from '@mantine/core';
-import { Form } from '@remix-run/react';
 import { useEffect, useCallback, useState, useRef, useMemo } from 'react';
+import { Form } from '@remix-run/react';
 import { DragDropContext, resetServerContext } from 'react-beautiful-dnd';
-import TodoProgress from '~/components/pages/todos/TodoProgress';
+import { Box, Input, Button, Title, Space } from '@mantine/core';
+import TodoProgress from '~/pages/todos/TodoProgress';
 
 /**
     * @author Kich555 <hyunjjang199582@gmail.com>

@@ -1,20 +1,9 @@
-import { Button, Input, Space } from '@mantine/core';
 import { Form, useActionData } from '@remix-run/react';
-import authStyles from '~/styles/auth/authstyles';
-import { badRequest, validateStringInputType } from '~/utils/actionHandler.server';
 import { login, createUserSession } from '~/utils/session.server';
-
-function validateUsername(username) {
-  if (typeof username !== 'string' || username.length < 3) {
-    return `Usernames must be at least 3 characters long`;
-  }
-}
-
-function validatePassword(password) {
-  if (typeof password !== 'string' || password.length < 6) {
-    return `Passwords must be at least 6 characters long`;
-  }
-}
+import { Button, Input, Space } from '@mantine/core';
+import authStyles from '~/pages/auth/styles/authStyles';
+import { validateUsername, validatePassword } from '~/pages/auth/utils/authUtils';
+import { badRequest, validateStringInputType } from '~/utils/actionHandler.server';
 
 export const action = async ({ request }) => {
   const formData = await request.formData();

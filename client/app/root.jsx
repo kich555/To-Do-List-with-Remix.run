@@ -1,7 +1,7 @@
 import { Links, LiveReload, Meta, Outlet, Scripts, ScrollRestoration } from '@remix-run/react';
 import { MantineProvider } from '@mantine/core';
 import { StylesPlaceholder } from '@mantine/remix';
-import Layout from './components/common/Layout';
+import Layout from '~/components/Layout';
 import resetCSS from '~/styles/reset.css';
 
 export const links = () => [

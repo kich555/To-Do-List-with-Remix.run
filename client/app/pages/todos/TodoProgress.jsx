@@ -1,10 +1,10 @@
+import { useState } from 'react';
+import { Form, useSubmit } from '@remix-run/react';
+import { Droppable } from 'react-beautiful-dnd';
 import { Badge, Box, Button, Container, Group, Input, Text, Textarea, Title } from '@mantine/core';
 import { useScrollIntoView } from '@mantine/hooks';
-import { Form, useSubmit } from '@remix-run/react';
-import { useState } from 'react';
-import { Droppable } from 'react-beautiful-dnd';
-import TodoCard from '~/components/pages/todos/TodoCard';
-import todoProgressStyles from '~/styles/todos/todoProgressStyles';
+import todoProgressStyles from '~/pages/todos/styles/todoProgressStyles';
+import TodoCard from '~/pages/todos/TodoCard';
 
 export default function TodoProgress({ progress, prefix }) {
   const [isClicked, setIsClicked] = useState(false);

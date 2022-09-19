@@ -1,5 +1,5 @@
 import { createStyles } from '@mantine/core';
-import { flexCol, centered, pointer } from '../commonStyles';
+import { flexCol, centered, pointer } from '~/styles/commonStyles';
 
 const todoDetailStyles = createStyles(theme => ({
   formWrapper: {

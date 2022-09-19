@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Outlet } from '@remix-run/react';
-import AuthModal from '~/components/pages/auth/AuthModal';
+import AuthModal from '~/pages/auth/AuthModal';
 
 export default function AuthRoute(params) {
   const [open, setOpen] = useState(false);
