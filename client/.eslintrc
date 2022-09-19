@@ -1,3 +1,30 @@
 {
-  "extends": ["@remix-run/eslint-config", "@remix-run/eslint-config/node", "prettier"]
+  "extends": ["@remix-run/eslint-config", "@remix-run/eslint-config/node", "plugin:import/errors", "plugin:import/warnings", "prettier"],
+  // 플러그인에 eslint-plugin-import를 설정
+  "plugins": ["import"],
+  "rules": {
+    "import/order": [
+      "error",
+      {
+        "groups": [
+          ["builtin", "external"],
+          ["index", "sibling", "parent", "internal", "object", "type"]
+        ]
+      }
+    ]
+    // "import/order": [
+    //   "error",
+    //   {
+    //     "groups": [["builtin", "external"], "internal", ["parent", "sibling"], "index"],
+    //     "newlines-between": "always",
+    //     "pathGroups": [
+    //       {
+    //         "pattern": "@/**",
+    //         "group": "internal",
+    //         "position": "after"
+    //       }
+    //     ]
+    //   }
+    // ]
+  }
 }
