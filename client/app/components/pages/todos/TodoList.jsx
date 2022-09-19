@@ -1,4 +1,4 @@
-import { Box, Input, Button, Text } from '@mantine/core';
+import { Box, Input, Button, Title, Space } from '@mantine/core';
 import { Form } from '@remix-run/react';
 import { useEffect, useCallback, useState, useRef, useMemo } from 'react';
 import { DragDropContext, resetServerContext } from 'react-beautiful-dnd';
@@ -93,14 +93,7 @@ export default function TodoList({ user, todos }) {
 
   return (
     <>
-      <Box>
-        <Text>{`Hi ${user.username}`}</Text>
-        <Form action="/logout" method="post">
-          <Button color="red" type="submit">
-            Logout
-          </Button>
-        </Form>
-      </Box>
+      <Title align="center" pt={36}>{`Hi ${user.username}`}</Title>
       <DragDropContext onDragEnd={handleDragEnd}>
         <Box sx={{ display: 'flex', justifyContent: 'center', height: '100%' }} py={20}>
           <Form ref={dropFormRef} method="post">
@@ -112,6 +105,13 @@ export default function TodoList({ user, todos }) {
           ))}
         </Box>
       </DragDropContext>
+      <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+        <Form action="/logout" method="post">
+          <Button color="red" type="submit" my={12}>
+            Logout
+          </Button>
+        </Form>
+      </Box>
     </>
   );
 }
