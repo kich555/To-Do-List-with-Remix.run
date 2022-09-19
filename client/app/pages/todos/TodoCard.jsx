@@ -22,7 +22,7 @@ export default function TodoCard({ card, index }) {
 
   return (
     <>
-      <Draggable key={card.title} index={index} draggableId={card.title}>
+      <Draggable key={card.id} index={index} draggableId={card.id}>
         {(provided, snapshot) => (
           <Box
             mb="sm"
