@@ -1,11 +1,10 @@
 import { Box, Title, Text, Button, Container, Group } from '@mantine/core';
 import { Link, useLocation, useNavigate } from '@remix-run/react';
+import { useMemo } from 'react';
 import serverOverloadStyles from './styles/serverOverloadStyles';
 
 export default function ServerOverload({ error }) {
-  // const { status, message, statusText } = error;
   const { pathname } = useLocation();
-
   const { classes } = serverOverloadStyles(pathname);
   const { root, label, title, description, button } = classes;
   const navigate = useNavigate();
@@ -14,21 +13,27 @@ export default function ServerOverload({ error }) {
     navigate('.', { replace: true });
   };
 
-  const errorDescription = () => {
+  const linkTo = useMemo(() => {
+    const isTodoRoute = pathname.includes('/todos');
+    if (isTodoRoute) return '/todos';
+    return '/';
+  }, [pathname]);
+
+  const errorDescription = useMemo(() => {
     if (error?.message) {
       return error.message;
     }
     if (error?.statusText) {
       return '';
     }
-    return 'Our servers could not handle your request. Don&apos;t worry, our development team was already notified. Try refreshing the page.';
-  };
+    return 'Our servers could not handle your request. Try refreshing the page.';
+  }, [error.message, error.statusText]);
 
   const ErrorButton = () => {
     if (error?.status === 404) {
       return (
-        <Button component={Link} to="/" variant="white" size="md" className={button} mb={36}>
-          Back to main
+        <Button component={Link} to={linkTo} variant="white" size="md" className={button} mb={36}>
+          {pathname.includes('/todos') ? 'Back to list' : 'Back to main'}
         </Button>
       );
     }
@@ -48,7 +53,7 @@ export default function ServerOverload({ error }) {
         <Title align="center" color="white" weight={900} className={title} mt={36}>
           {error?.statusText || 'Something bad just happened...'}
         </Title>
-        <Text size="lg" align="center" color="white" mt={24} className={description}>
+        <Text size="lg" align="center" color="white" weight={700} mt={24} className={description}>
           {errorDescription}
         </Text>
         <Group position="center" mt={36}>
