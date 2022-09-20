@@ -2,7 +2,8 @@ import { Box, Title, Text, Button, Container, Group } from '@mantine/core';
 import { useLocation, useNavigate } from '@remix-run/react';
 import serverOverloadStyles from './styles/serverOverloadStyles';
 
-export default function ServerOverload({ status, message, statusText }) {
+export default function ServerOverload({ error }) {
+  const { status, message, statusText } = error;
   const { pathname } = useLocation();
 
   const { classes } = serverOverloadStyles(pathname);

@@ -1,10 +1,10 @@
 import { Box } from '@mantine/core';
 import ServerOverload from '~/pages/errors/ServerOverload';
 
-export default function AuthErrorContainer({ message, status, statusText }) {
+export default function AuthErrorContainer({ error }) {
   return (
     <Box sx={{ overflow: 'hidden', borderRadius: '12px' }}>
-      <ServerOverload message={message} status={status} statusText={statusText} />
+      <ServerOverload error={error} />
     </Box>
   );
 }
