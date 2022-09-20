@@ -3,7 +3,7 @@ import { useNavigate } from '@remix-run/react';
 import serverOverloadStyles from './styles/serverOverloadStyles';
 
 export default function ServerOverload({ status, message }) {
-  const { theme, classes } = serverOverloadStyles();
+  const { classes } = serverOverloadStyles();
   const { root, label, title, description, button } = classes;
   const navigate = useNavigate();
 
