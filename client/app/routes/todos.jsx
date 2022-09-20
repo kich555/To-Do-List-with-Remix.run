@@ -3,6 +3,7 @@ import { json, redirect } from '@remix-run/node';
 import { createTodo, getUserTodos } from '~/models/todo.server';
 import { requireUserId, getUser } from '~/utils/session.server';
 import TodoList from '~/pages/todos/TodoList';
+import ListErrorContainer from '~/pages/todos/errors/ListErrorContainer';
 
 export const loader = async ({ request }) => {
   const user = await getUser(request);
@@ -59,5 +60,10 @@ export const action = async ({ request }) => {
 
 export default function TodosIndexRoute() {
   const { user, newTodos } = useLoaderData();
+  throw new Error('Testing Error Boundary');
   return <TodoList user={user} todos={newTodos} />;
+}
+
+export function ErrorBoundary() {
+  return <ListErrorContainer />;
 }

@@ -4,7 +4,7 @@ import { NotificationsProvider } from '@mantine/notifications';
 import { StylesPlaceholder } from '@mantine/remix';
 import Layout from '~/components/Layout';
 import resetCSS from '~/styles/reset.css';
-import ServerOverload from '~/pages/Error/ServerOverload';
+import DefaultErrorContainer from '~/pages/home/errors/DefaultErrorContainer';
 
 export const links = () => [
   {
@@ -56,7 +56,7 @@ export default function App() {
 export function ErrorBoundary({ error }) {
   return (
     <Document title="Something Wrong">
-      <ServerOverload message={error?.message} status={error?.status} />
+      <DefaultErrorContainer message={error?.message} status={error?.status} />
     </Document>
   );
 }
