@@ -20,10 +20,32 @@ export default function TodoDetail({ loaderData }) {
       <Title align="center">{title}</Title>
       <Box sx={{ display: 'flex', justifyContent: 'flex-end' }} pt={12}>
         <Form method="patch">
-          <Badge size="lg" component="button" sx={badge} variant={todoCategory === 'life' ? 'filled' : 'light'} onClick={() => setTodoCategory('life')}>
+          <Input type="hidden" name="_id" value={id} />
+          <Input type="hidden" name="category" value={todoCategory} />
+          <Badge
+            size="lg"
+            component="button"
+            type="submit"
+            name="_action"
+            value="categoryUpdate"
+            sx={badge}
+            variant={todoCategory === 'life' ? 'filled' : 'light'}
+            onClick={() => setTodoCategory('life')}
+          >
             life
           </Badge>
-          <Badge size="lg" component="button" sx={badge} color="teal" variant={todoCategory === 'work' ? 'filled' : 'light'} ml={8} onClick={() => setTodoCategory('work')}>
+          <Badge
+            size="lg"
+            component="button"
+            type="submit"
+            name="_action"
+            value="categoryUpdate"
+            sx={badge}
+            color="teal"
+            variant={todoCategory === 'work' ? 'filled' : 'light'}
+            ml={8}
+            onClick={() => setTodoCategory('work')}
+          >
             work
           </Badge>
         </Form>
