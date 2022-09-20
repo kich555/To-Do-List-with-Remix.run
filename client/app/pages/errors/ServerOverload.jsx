@@ -2,7 +2,7 @@ import { Box, Title, Text, Button, Container, Group } from '@mantine/core';
 import { useLocation, useNavigate } from '@remix-run/react';
 import serverOverloadStyles from './styles/serverOverloadStyles';
 
-export default function ServerOverload({ status, message }) {
+export default function ServerOverload({ status, message, statusText }) {
   const { pathname } = useLocation();
 
   const { classes } = serverOverloadStyles(pathname);
@@ -19,7 +19,7 @@ export default function ServerOverload({ status, message }) {
           {status || 500}
         </Text>
         <Title align="center" color="white" weight={900} className={title} mt={36}>
-          Something bad just happened...
+          {statusText || 'Something bad just happened...'}
         </Title>
         <Text size="lg" align="center" color="white" mt={24} className={description}>
           {message || 'Our servers could not handle your request. Don&apos;t worry, our development team was already notified. Try refreshing the page.'}

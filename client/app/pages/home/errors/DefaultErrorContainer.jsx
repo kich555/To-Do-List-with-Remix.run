@@ -2,7 +2,7 @@ import { useTheme } from '@emotion/react';
 import { Box } from '@mantine/core';
 import ServerOverload from '~/pages/errors/ServerOverload';
 
-export default function DefaultErrorContainer({ message, status }) {
+export default function DefaultErrorContainer({ message, status, statusText }) {
   const theme = useTheme();
   const root = {
     display: 'flex',
@@ -12,10 +12,10 @@ export default function DefaultErrorContainer({ message, status }) {
     minHeight: '100vh',
     backgroundColor: theme.colors.gray[6],
   };
-  
+
   return (
     <Box sx={root}>
-      <ServerOverload message={message} status={status} />
+      <ServerOverload message={message} status={status} statusText={statusText} />
     </Box>
   );
 }
