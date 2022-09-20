@@ -1,6 +1,6 @@
 import { useTheme } from '@emotion/react';
 import { Box } from '@mantine/core';
-import ServerOverload from '~/pages/errors/ServerOverload';
+import ErrorHandler from '~/pages/errors/ErrorHandler';
 
 export default function DefaultErrorContainer({ error }) {
   const theme = useTheme();
@@ -15,7 +15,7 @@ export default function DefaultErrorContainer({ error }) {
 
   return (
     <Box sx={root}>
-      <ServerOverload error={error} />
+      <ErrorHandler error={error} />
     </Box>
   );
 }

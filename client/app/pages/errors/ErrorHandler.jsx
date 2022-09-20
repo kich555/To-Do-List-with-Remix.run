@@ -1,11 +1,11 @@
 import { Box, Title, Text, Button, Container, Group } from '@mantine/core';
 import { Link, useLocation, useNavigate } from '@remix-run/react';
 import { useMemo } from 'react';
-import serverOverloadStyles from './styles/serverOverloadStyles';
+import errorHandlerStyles from './styles/errorHandlerStyles';
 
-export default function ServerOverload({ error }) {
+export default function ErrorHandler({ error }) {
   const { pathname } = useLocation();
-  const { classes } = serverOverloadStyles(pathname);
+  const { classes } = errorHandlerStyles(pathname);
   const { root, label, title, description, button } = classes;
   const navigate = useNavigate();
 

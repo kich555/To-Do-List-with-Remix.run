@@ -1,6 +1,6 @@
 import { createStyles } from '@mantine/core';
 
-const serverOverloadStyles = createStyles((theme, pathname) => ({
+const errorHandlerStyles = createStyles((theme, pathname) => ({
   root: {
     // backgroundColor: theme.fn.variant({ variant: 'filled', color: theme.primaryColor }).background,
     backgroundColor: theme.colors.gray[6],
@@ -33,4 +33,4 @@ const serverOverloadStyles = createStyles((theme, pathname) => ({
   },
 }));
 
-export default serverOverloadStyles;
+export default errorHandlerStyles;
