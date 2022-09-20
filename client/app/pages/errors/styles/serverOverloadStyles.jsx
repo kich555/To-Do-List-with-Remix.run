@@ -1,6 +1,6 @@
 import { createStyles } from '@mantine/core';
 
-const serverOverloadStyles = createStyles(theme => ({
+const serverOverloadStyles = createStyles((theme, pathname) => ({
   root: {
     // backgroundColor: theme.fn.variant({ variant: 'filled', color: theme.primaryColor }).background,
     backgroundColor: theme.colors.gray[6],
@@ -9,7 +9,7 @@ const serverOverloadStyles = createStyles(theme => ({
   label: {
     lineHeight: 1,
     color: theme.colors[theme.primaryColor][3],
-    fontSize: 220,
+    fontSize: pathname === '/auth' ? 120 : 220,
     [theme.fn.smallerThan('sm')]: {
       fontSize: 120,
     },
@@ -17,7 +17,7 @@ const serverOverloadStyles = createStyles(theme => ({
 
   title: {
     fontFamily: `Greycliff CF, ${theme.fontFamily}`,
-    fontSize: 38,
+    fontSize: pathname === '/auth' ? 32 : 38,
     [theme.fn.smallerThan('sm')]: {
       fontSize: 32,
     },
