@@ -1,8 +1,8 @@
 import { useEffect, useCallback, useState, useRef, useMemo } from 'react';
 import { resetServerContext } from 'react-beautiful-dnd';
-import { removeFormList, addToList, objectToArray } from './utils/handleArray';
+import { removeFormList, addToList, objectToArray } from '../utils/handleArray';
 
-export default function useDropList({ progress, todos }) {
+export function useDropList({ progress, todos }) {
   const [todoList, setTodoList] = useState(todos);
   const dropFormRef = useRef();
   resetServerContext();
