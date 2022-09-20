@@ -1,16 +1,16 @@
-import { useLoaderData } from '@remix-run/react';
+import { useCatch, useLoaderData, useParams } from '@remix-run/react';
 import { json, redirect } from '@remix-run/node';
 import { createTodo, getUserTodos } from '~/models/todo.server';
 import { requireUserId, getUser } from '~/utils/session.server';
 import TodoList from '~/pages/todos/TodoList';
 import ListErrorContainer from '~/pages/todos/errors/ListErrorContainer';
+import { TodoModalProvider } from '~/pages/todo/controller/context/TodoModalProvider';
 
 export const loader = async ({ request }) => {
   const user = await getUser(request);
 
   // If user is undifined redirect to /auth/login
   if (!user) return redirect('/auth/login');
-
   const todos = await getUserTodos(user);
 
   const getNewTodos = () => {
@@ -61,9 +61,15 @@ export const action = async ({ request }) => {
 
 export default function TodosIndexRoute() {
   const { user, newTodos } = useLoaderData();
-  return <TodoList user={user} todos={newTodos} />;
+
+  // throw new Error('Testing Error Boundary');
+  return (
+    <TodoModalProvider>
+      <TodoList user={user} todos={newTodos} />
+    </TodoModalProvider>
+  );
 }
 
 export function ErrorBoundary({ error }) {
-  return <ListErrorContainer message={error?.message} status={error?.status} />;
+  return <ListErrorContainer error={error} />;
 }
