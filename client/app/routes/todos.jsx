@@ -60,10 +60,9 @@ export const action = async ({ request }) => {
 
 export default function TodosIndexRoute() {
   const { user, newTodos } = useLoaderData();
-  throw new Error('Testing Error Boundary');
   return <TodoList user={user} todos={newTodos} />;
 }
 
-export function ErrorBoundary() {
-  return <ListErrorContainer />;
+export function ErrorBoundary({ error }) {
+  return <ListErrorContainer message={error?.message} status={error?.status} />;
 }
