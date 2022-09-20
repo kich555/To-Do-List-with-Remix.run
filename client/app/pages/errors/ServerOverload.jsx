@@ -4,7 +4,7 @@ import serverOverloadStyles from './styles/serverOverloadStyles';
 
 export default function ServerOverload({ status, message }) {
   const { theme, classes } = serverOverloadStyles();
-  const { root, label, title, description } = classes;
+  const { root, label, title, description, button } = classes;
   const navigate = useNavigate();
 
   const handleRefresh = () => {
@@ -23,7 +23,7 @@ export default function ServerOverload({ status, message }) {
           {message || 'Our servers could not handle your request. Don&apos;t worry, our development team was already notified. Try refreshing the page.'}
         </Text>
         <Group position="center" mt={36}>
-          <Button type="button" variant="white" size="md" onClick={handleRefresh}>
+          <Button type="button" variant="white" size="md" className={button} onClick={handleRefresh} mb={36}>
             Refresh the page
           </Button>
         </Group>

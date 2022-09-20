@@ -2,10 +2,8 @@ import { createStyles } from '@mantine/core';
 
 const serverOverloadStyles = createStyles(theme => ({
   root: {
-    minHeight: '100vh',
-    paddingTop: 80,
-    paddingBottom: 120,
-    backgroundColor: theme.fn.variant({ variant: 'filled', color: theme.primaryColor }).background,
+    // backgroundColor: theme.fn.variant({ variant: 'filled', color: theme.primaryColor }).background,
+    backgroundColor: theme.colors.gray[6],
   },
 
   label: {
@@ -28,6 +26,10 @@ const serverOverloadStyles = createStyles(theme => ({
   description: {
     maxWidth: 540,
     margin: 'auto',
+  },
+
+  button: {
+    color: theme.colors[theme.primaryColor][4],
   },
 }));
 
