@@ -50,12 +50,13 @@ export const action = async ({ request }) => {
     }
 
     await createTodo({ ...values, userId });
+    return redirect('/todos');
   }
 
   if (_action === 'drop') {
     console.log('values', values);
+    return redirect('/todos');
   }
-  return redirect('/todos');
 };
 
 export default function TodosIndexRoute() {
