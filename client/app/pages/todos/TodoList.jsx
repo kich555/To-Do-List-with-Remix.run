@@ -16,8 +16,11 @@ export default function TodoList({ user, todos }) {
   const params = useParams();
 
   useEffect(() => {
-    if (!params.id) return;
-    dispatch({ type: 'OPEN' });
+    if (!params.id) {
+      return dispatch({ type: 'CLOSE' });
+    } else {
+      return dispatch({ type: 'OPEN' });
+    }
   }, [params.id, dispatch]);
 
   return (
