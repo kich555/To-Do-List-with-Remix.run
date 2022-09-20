@@ -1,20 +1,13 @@
-import { useEffect, useCallback, useState, useRef, useMemo } from 'react';
+import { useEffect, useCallback, useState, useMemo } from 'react';
 import { resetServerContext } from 'react-beautiful-dnd';
 import { removeFormList, addToList, objectToArray } from '../utils/handleArray';
 
 export function useDropList({ progress, todos }) {
   const [todoList, setTodoList] = useState(todos);
-  const dropFormRef = useRef();
+
   resetServerContext();
 
-  const arrayedTodoList = useMemo(() => {
-    return objectToArray(todoList);
-  }, [todoList]);
-
-  const handleDrop = useCallback(() => {
-    if (todos === todoList) return;
-    dropFormRef.current?.submit();
-  }, [todos, todoList]);
+  const arrayedTodoList = useMemo(() => objectToArray(todoList), [todoList]);
 
   const handleDragEnd = useCallback(
     ({ destination, source }) => {
@@ -46,10 +39,6 @@ export function useDropList({ progress, todos }) {
   useEffect(() => {
     setTodoList(todos);
   }, [todos]);
-
-  useEffect(() => {
-    handleDrop();
-  }, [handleDrop]);
 
   return [todoList, arrayedTodoList, handleDragEnd];
 }
