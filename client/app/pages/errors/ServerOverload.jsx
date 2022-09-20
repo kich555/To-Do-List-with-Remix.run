@@ -1,5 +1,5 @@
 import { Box, Title, Text, Button, Container, Group } from '@mantine/core';
-import { useLocation, useNavigate } from '@remix-run/react';
+import { Link, useLocation, useNavigate } from '@remix-run/react';
 import serverOverloadStyles from './styles/serverOverloadStyles';
 
 export default function ServerOverload({ error }) {
@@ -13,6 +13,32 @@ export default function ServerOverload({ error }) {
   const handleRefresh = () => {
     navigate('.', { replace: true });
   };
+
+  const errorDescription = () => {
+    if (message) {
+      return message;
+    }
+    if (statusText) {
+      return '';
+    }
+    return 'Our servers could not handle your request. Don&apos;t worry, our development team was already notified. Try refreshing the page.';
+  };
+
+  const ErrorButton = () => {
+    if (status === 404) {
+      return (
+        <Button component={Link} to="/" variant="white" size="md" className={button} mb={36}>
+          Back to main
+        </Button>
+      );
+    }
+    return (
+      <Button type="button" variant="white" size="md" className={button} onClick={handleRefresh} mb={36}>
+        Refresh the page
+      </Button>
+    );
+  };
+
   return (
     <Box className={root}>
       <Container>
@@ -23,12 +49,10 @@ export default function ServerOverload({ error }) {
           {statusText || 'Something bad just happened...'}
         </Title>
         <Text size="lg" align="center" color="white" mt={24} className={description}>
-          {message || 'Our servers could not handle your request. Don&apos;t worry, our development team was already notified. Try refreshing the page.'}
+          {errorDescription}
         </Text>
         <Group position="center" mt={36}>
-          <Button type="button" variant="white" size="md" className={button} onClick={handleRefresh} mb={36}>
-            Refresh the page
-          </Button>
+          <ErrorButton />
         </Group>
       </Container>
     </Box>
