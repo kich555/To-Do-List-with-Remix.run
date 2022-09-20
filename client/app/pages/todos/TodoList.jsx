@@ -1,14 +1,24 @@
-import { useRef, useMemo } from 'react';
-import { Form } from '@remix-run/react';
-import { Box, Input, Button, Title } from '@mantine/core';
+import { useRef, useEffect, useMemo } from 'react';
+import { Form, Outlet, useParams } from '@remix-run/react';
+import { Box, Input, Button, Title, Modal } from '@mantine/core';
+import { useTheme } from '@emotion/react';
 import { DragDropContext } from 'react-beautiful-dnd';
+import { useDropList } from '../todo/controller/hook/useDropList';
+import { useModal } from '../todo/controller/context/TodoModalProvider';
 import TodoProgress from './TodoProgress';
-import useDropList from '../todo/controller/useDropList';
 
 export default function TodoList({ user, todos }) {
+  const [open, dispatch, handleClose] = useModal();
   const dropFormRef = useRef();
   const progress = useMemo(() => ['todo', 'inProgress', 'done'], []);
   const [todoList, arrayedTodoList, handleDragEnd] = useDropList({ progress, todos });
+  const theme = useTheme();
+  const params = useParams();
+
+  useEffect(() => {
+    if (!params.id) return;
+    dispatch({ type: 'OPEN' });
+  }, [params.id, dispatch]);
 
   return (
     <>
@@ -31,6 +41,20 @@ export default function TodoList({ user, todos }) {
           </Button>
         </Form>
       </Box>
+      <Modal
+        transition="rotate-left"
+        transitionDuration={300}
+        transitionTimingFunction="ease"
+        size="lg"
+        centered
+        overlayColor={theme.colorScheme === 'dark' ? theme.colors.dark[9] : theme.colors.gray[2]}
+        overlayOpacity={0.55}
+        overlayBlur={3}
+        opened={open}
+        onClose={handleClose}
+      >
+        <Outlet />
+      </Modal>
     </>
   );
 }
