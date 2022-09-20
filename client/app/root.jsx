@@ -5,6 +5,7 @@ import { StylesPlaceholder } from '@mantine/remix';
 import Layout from '~/components/Layout';
 import resetCSS from '~/styles/reset.css';
 
+
 export const links = () => [
   {
     rel: 'stylesheet',
@@ -18,30 +19,37 @@ export const meta = () => ({
   viewport: 'width=device-width,initial-scale=1',
 });
 
-export default function App() {
+function Document({ children, title = `TodoList` }) {
   return (
     <html lang="en">
       <head>
+        <title>{title}</title>
         <Meta />
         <Links />
         <StylesPlaceholder />
       </head>
       <body>
-        <MantineProvider
-          // theme={{ colorScheme: 'dark' }}
-          withGlobalStyles
-          withNormalizeCSS
-        >
-          <NotificationsProvider>
-            <Layout>
-              <Outlet />
-            </Layout>
-            <ScrollRestoration />
-            <Scripts />
-            <LiveReload />
-          </NotificationsProvider>
+        <MantineProvider withGlobalStyles withNormalizeCSS>
+          {children}
+          <LiveReload />
         </MantineProvider>
       </body>
     </html>
   );
 }
+
+export default function App() {
+  return (
+    <Document>
+      <NotificationsProvider>
+        <Layout>
+          <Outlet />
+        </Layout>
+        <ScrollRestoration />
+        <Scripts />
+        <LiveReload />
+      </NotificationsProvider>
+    </Document>
+  );
+}
+
