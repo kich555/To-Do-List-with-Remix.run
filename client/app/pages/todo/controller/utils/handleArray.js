@@ -12,14 +12,16 @@ export function removeFormList (list, index) {
   
   export function objectToArray (obj) {
     const arrayedObject = Object.values(obj);
-  
+    let array;
+
     if (arrayedObject.length === 0) {
-      return arrayedObject;
+      array= arrayedObject;
+      return array
     } else {
-      arrayedObject.reduce((acc, cur) => {
+      array = arrayedObject.reduce((acc, cur) => {
+        console.log()
         return [...acc, ...cur];
       });
-    }
-  
-    return arrayedObject;
+     return array
+    };
   };
