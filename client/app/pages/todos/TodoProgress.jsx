@@ -3,8 +3,8 @@ import { Form, useSubmit } from '@remix-run/react';
 import { Droppable } from 'react-beautiful-dnd';
 import { Badge, Box, Button, Container, Group, Input, Text, Textarea, Title } from '@mantine/core';
 import { useScrollIntoView } from '@mantine/hooks';
-import todoProgressStyles from '~/pages/todos/styles/todoProgressStyles';
-import TodoCard from '~/pages/todos/TodoCard';
+import TodoCard from './TodoCard';
+import todoProgressStyles from './styles/todoProgressStyles';
 
 export default function TodoProgress({ progress, prefix }) {
   const [isClicked, setIsClicked] = useState(false);

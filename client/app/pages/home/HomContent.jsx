@@ -1,6 +1,6 @@
 import { Overlay, Container, Title, Button, Text } from '@mantine/core';
 import { Link } from '@remix-run/react';
-import homeContentStyles from '~/pages/home/styles/homeContentStyles';
+import homeContentStyles from './styles/homeContentStyles';
 
 export default function HomContent(params) {
   const { classes } = homeContentStyles();
