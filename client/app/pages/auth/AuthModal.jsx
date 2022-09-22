@@ -1,10 +1,12 @@
 import { useTheme } from '@emotion/react';
 import { Image, Box, Container, Divider, Modal, Title, ActionIcon, Badge } from '@mantine/core';
 import { Link, useLocation } from '@remix-run/react';
+import { useAuthUX } from './controller/context/AuthUXProvider';
 
-export default function AuthModal({ children, open }) {
+export default function AuthModal({ children }) {
   const theme = useTheme();
   const { pathname } = useLocation();
+  const [open] = useAuthUX();
 
   return (
     <Modal
