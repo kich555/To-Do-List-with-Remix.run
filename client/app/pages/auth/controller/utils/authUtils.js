@@ -9,3 +9,7 @@ export function validatePassword(password) {
       return `Passwords must be at least 6 characters long`;
     }
   }
+
+export function capitalize(string) {
+  return string.replace(/^[a-z]/, char => char.toUpperCase())
+}
