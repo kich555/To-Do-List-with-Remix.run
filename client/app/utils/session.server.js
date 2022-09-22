@@ -19,9 +19,10 @@ export async function login({ username, password }) {
 
 export async function logout(request) {
   const session = await getUserSession(request);
+
   return redirect('/', {
     headers: {
-      "Set-Cookie": await storage.destroySession(session)
+      "Set-Cookie": await storage.destroySession(session),
     },
   });
 };
@@ -65,6 +66,7 @@ function getUserSession(request) {
 export async function getUserId(request) {
   const session = await getUserSession(request);
   const userId = session.get('userId');
+  
   if (!userId || typeof userId !== 'string') return;
   return userId;
 };
@@ -73,9 +75,9 @@ export async function getUser(request) {
   const userId = await getUserId(request); 
 
   if(typeof userId !== 'string') return;
-
   try {
     const user = await findUserWithId(userId);
+    
     return user;
   } catch {
     throw logout(request);
@@ -95,7 +97,7 @@ export async function requireUserId(request, redirectTo = new URL(request.url).p
 
 export async function createUserSession(userId, redirectTo) {
   const session = await storage.getSession();
-  session.set('userId', userId);
+  session.set("userId", userId);
   return redirect(redirectTo, {
     headers: {
       'Set-Cookie': await storage.commitSession(session),
