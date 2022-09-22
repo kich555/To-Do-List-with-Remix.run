@@ -1,12 +1,12 @@
 import { Form, useActionData } from '@remix-run/react';
 import { useEffect } from 'react';
 import { checkUser } from '~/models/user.server';
-import { Button, Image, Input, Space } from '@mantine/core';
-import { showNotification } from '@mantine/notifications';
+import { Button, Input, Space } from '@mantine/core';
 import { badRequest, validateStringInputType } from '~/utils/actionHandler.server';
-import { validateUsername, validatePassword } from '~/pages/auth/utils/authUtils';
+import { validateUsername, validatePassword } from '~/pages/auth/controller/utils/authUtils';
 import authStyles from '~/pages/auth/styles/authStyles';
 import { register, createUserSession } from '~/utils/session.server';
+import { useAuthUX } from '~/pages/auth/controller/context/AuthUXProvider';
 
 export const action = async ({ request }) => {
   const formData = await request.formData();
@@ -18,6 +18,7 @@ export const action = async ({ request }) => {
 
   // check password confirmed
   if (password !== confirmPassword) {
+    console.log('isIn?? -->');
     const fieldErrors = {
       confirmPassword: confirmPasswordFieldError,
     };
@@ -67,17 +68,12 @@ export default function RegisterRoute(params) {
   const actionData = useActionData();
   const { classes } = authStyles();
   const { label, input, errorInput, errorMessage, button } = classes;
-
+  const [, , setActionData] = useAuthUX();
+  console.log('actionData', actionData);
   useEffect(() => {
-    if (actionData?.formError) {
-      showNotification({
-        title: 'Register failed',
-        message: actionData?.formError,
-        icon: <Image sx={{ backgroundColor: 'white' }} loading="lazy" decoding="async" alt="error-icon" src="https://img.icons8.com/emoji/48/000000/cross-mark-emoji.png" />,
-        autoClose: 3000,
-      });
-    }
-  }, [actionData]);
+    if (!actionData) return;
+    setActionData(actionData);
+  }, [setActionData, actionData]);
 
   return (
     <>
@@ -90,13 +86,13 @@ export default function RegisterRoute(params) {
             type="text"
             defaultValue={actionData?.fields?.username}
             aria-label="username"
-            aria-invalid={Boolean(actionData?.fieldErrors?.username)}
-            aria-errormessage={actionData?.fieldErrors?.username && 'username-error'}
+            aria-invalid={Boolean(actionData?.fieldErrors?.username) || Boolean(actionData?.formError)}
+            aria-errormessage={((actionData?.fieldErrors?.username || actionData?.formError?.includes('username')) && 'username-error') || (actionData?.formError && 'network-error')}
             placeholder="username"
             className={input}
-            styles={{ input: actionData?.fieldErrors?.username && errorInput }}
+            styles={{ input: (actionData?.fieldErrors?.username || actionData?.formError) && errorInput }}
           />
-          <Input.Error className={errorMessage}>{actionData?.fieldErrors?.username} </Input.Error>
+          <Input.Error className={errorMessage}>{actionData?.fieldErrors?.username || actionData?.formError} </Input.Error>
         </Input.Label>
         <Input.Label htmlFor="password-input" mt={4} className={label}>
           <Input
@@ -105,13 +101,13 @@ export default function RegisterRoute(params) {
             type="password"
             defaultValue={actionData?.fields?.password}
             aria-label="password"
-            aria-invalid={Boolean(actionData?.fieldErrors?.password)}
+            aria-invalid={Boolean(actionData?.fieldErrors?.password) || Boolean(actionData?.formError)}
             aria-errormessage={actionData?.fieldErrors?.password && 'password-error'}
             placeholder="password"
             className={input}
-            styles={{ input: actionData?.fieldErrors?.password && errorInput }}
+            styles={{ input: (actionData?.fieldErrors?.password || actionData?.formError) && errorInput }}
           />
-          <Input.Error className={errorMessage}>{actionData?.fieldErrors?.password} </Input.Error>
+          <Input.Error className={errorMessage}>{actionData?.fieldErrors?.password || actionData?.formError?.includes('wrong')} </Input.Error>
         </Input.Label>
         <Input.Label htmlFor="confirm-password-input" mt={4} className={label}>
           <Input
@@ -120,11 +116,11 @@ export default function RegisterRoute(params) {
             type="password"
             defaultValue={actionData?.fields?.confirmPassword}
             aria-label="confirm-password"
-            aria-invalid={Boolean(actionData?.fieldErrors?.confirmPassword)}
+            aria-invalid={Boolean(actionData?.fieldErrors?.confirmPassword) || Boolean(actionData?.formError)}
             aria-errormessage={actionData?.fieldErrors?.confirmPassword && 'password-error'}
             placeholder="confirm password"
             className={input}
-            styles={{ input: actionData?.fieldErrors?.confirmPassword && errorInput }}
+            styles={{ input: (actionData?.fieldErrors?.confirmPassword || actionData?.formError) && errorInput }}
           />
           <Input.Error className={errorMessage}>{actionData?.fieldErrors?.confirmPassword} </Input.Error>
         </Input.Label>
