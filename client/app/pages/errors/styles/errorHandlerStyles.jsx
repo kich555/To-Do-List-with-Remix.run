@@ -9,7 +9,7 @@ const errorHandlerStyles = createStyles((theme, pathname) => ({
   label: {
     lineHeight: 1,
     color: theme.colors[theme.primaryColor][3],
-    fontSize: pathname === '/auth' ? 120 : 220,
+    fontSize: pathname.includes('/auth') ? 120 : 220,
     [theme.fn.smallerThan('sm')]: {
       fontSize: 120,
     },
@@ -17,7 +17,7 @@ const errorHandlerStyles = createStyles((theme, pathname) => ({
 
   title: {
     fontFamily: `Greycliff CF, ${theme.fontFamily}`,
-    fontSize: pathname === '/auth' ? 32 : 38,
+    fontSize: pathname.includes('/auth') ? 32 : 38,
     [theme.fn.smallerThan('sm')]: {
       fontSize: 32,
     },
