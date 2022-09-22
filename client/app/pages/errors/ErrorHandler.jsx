@@ -27,7 +27,7 @@ export default function ErrorHandler({ error }) {
       return '';
     }
     return 'Our servers could not handle your request. Try refreshing the page.';
-  }, [error.message, error.statusText]);
+  }, [error?.message, error?.statusText]);
 
   const ErrorButton = () => {
     if (error?.status === 404) {
