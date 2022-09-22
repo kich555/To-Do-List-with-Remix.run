@@ -1,28 +1,31 @@
-import { useState, useEffect } from 'react';
-import { Outlet } from '@remix-run/react';
+import { Outlet, useCatch } from '@remix-run/react';
+import { AuthUXProvider } from '~/pages/auth/controller/context/AuthUXProvider';
 import AuthModal from '~/pages/auth/AuthModal';
 import AuthErrorContainer from '~/pages/auth/errors/AuthErrorContainer';
 
-export default function AuthRoute(params) {
-  const [open, setOpen] = useState(false);
-
-  useEffect(() => {
-    setTimeout(() => setOpen(true), 0);
-  }, []);
-
+export default function AuthRoute() {
   return (
     <>
-      <AuthModal open={open}>
-        <Outlet />
-      </AuthModal>
+      <AuthUXProvider>
+        <AuthModal>
+          <Outlet />
+        </AuthModal>
+      </AuthUXProvider>
     </>
   );
 }
 
+export function CatchBoundary() {
+  const caught = useCatch();
+  console.log('--->', caught);
+}
+
 export function ErrorBoundary({ error }) {
   return (
-    <AuthModal open={true}>
-      <AuthErrorContainer message={error?.message} status={error?.status} />
-    </AuthModal>
+    <AuthUXProvider>
+      <AuthModal>
+        <AuthErrorContainer message={error?.message} status={error?.status} />
+      </AuthModal>
+    </AuthUXProvider>
   );
 }
