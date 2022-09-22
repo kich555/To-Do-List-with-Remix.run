@@ -19,7 +19,6 @@ export function removeFormList (list, index) {
       return array
     } else {
       array = arrayedObject.reduce((acc, cur) => {
-        console.log()
         return [...acc, ...cur];
       });
      return array
