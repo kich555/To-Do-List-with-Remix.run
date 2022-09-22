@@ -11,11 +11,13 @@ export async function getSingleTodo (id) {
   return db.todo.findUnique({where: {id}})
 }
 
-export async function updateTodos(todoList) {
-
-  return db.todo.updateMany({
-    where:{},
-    data: {}})
+export async function updateUserTodos(todos) {
+  for (const todo of todos) {
+    await db.todo.update({
+      where: { id:todo.id },
+      data: todo,
+    });
+  }
 }
 
 export async function updateSingleTodo ({ _id: id, ...data }) {
@@ -35,8 +37,8 @@ export async function createTodo({ userId, ...data }) {
 }
 
 export async function deleteTodo({ _id: id }) {
-  const result = await db.todo.findUnique({ where: { id } })
-  if (id !== result?.id) return 
+  const todo = await getSingleTodo(id)
+  if (id !== todo?.id) return;
   return db.todo.delete({
     where: { id }
   })
