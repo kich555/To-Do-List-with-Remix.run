@@ -17,7 +17,6 @@ export default function AuthRoute() {
 
 export function CatchBoundary() {
   const caught = useCatch();
-  console.log('--->', caught);
 }
 
 export function ErrorBoundary({ error }) {

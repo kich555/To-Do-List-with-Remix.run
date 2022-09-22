@@ -18,7 +18,6 @@ export const action = async ({ request }) => {
 
   // check password confirmed
   if (password !== confirmPassword) {
-    console.log('isIn?? -->');
     const fieldErrors = {
       confirmPassword: confirmPasswordFieldError,
     };
@@ -69,7 +68,7 @@ export default function RegisterRoute(params) {
   const { classes } = authStyles();
   const { label, input, errorInput, errorMessage, button } = classes;
   const [, , setActionData] = useAuthUX();
-  console.log('actionData', actionData);
+
   useEffect(() => {
     if (!actionData) return;
     setActionData(actionData);
