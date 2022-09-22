@@ -1,4 +1,4 @@
-import { useRef, useEffect, useMemo } from 'react';
+import { useRef, useEffect, useCallback, useMemo } from 'react';
 import { Form, Outlet, useParams } from '@remix-run/react';
 import { Box, Input, Button, Title, Modal } from '@mantine/core';
 import { useTheme } from '@emotion/react';
@@ -23,14 +23,23 @@ export default function TodoList({ user, todos }) {
     }
   }, [params.id, dispatch]);
 
+  const handleDrop = useCallback(() => {
+    if (todos === todoList) return;
+    dropFormRef.current?.submit();
+  }, [todos, todoList]);
+
+  useEffect(() => {
+    handleDrop();
+  }, [handleDrop]);
+
   return (
     <>
       <Title align="center" pt={36}>{`Hi ${user.username}`}</Title>
       <DragDropContext onDragEnd={handleDragEnd}>
         <Box sx={{ display: 'flex', justifyContent: 'center', height: '100%' }} py={20}>
-          <Form ref={dropFormRef} method="post">
+          <Form ref={dropFormRef} method="update">
             <Input type="hidden" name="_action" value="drop" />
-            <Input type="hidden" name="todoList" value={arrayedTodoList} />
+            <Input type="hidden" name="todos" value={JSON.stringify(arrayedTodoList)} />
           </Form>
           {progress.map(progress => (
             <TodoProgress key={progress} prefix={progress} progress={todoList[progress]} />

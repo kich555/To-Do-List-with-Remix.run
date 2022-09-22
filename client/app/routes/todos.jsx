@@ -1,6 +1,6 @@
-import { useCatch, useLoaderData, useParams } from '@remix-run/react';
+import { useLoaderData } from '@remix-run/react';
 import { json, redirect } from '@remix-run/node';
-import { createTodo, getUserTodos } from '~/models/todo.server';
+import { createTodo, getUserTodos, updateUserTodos } from '~/models/todo.server';
 import { requireUserId, getUser } from '~/utils/session.server';
 import TodoList from '~/pages/todos/TodoList';
 import ListErrorContainer from '~/pages/todos/errors/ListErrorContainer';
@@ -21,7 +21,8 @@ export const loader = async ({ request }) => {
         if (!acc[cur.progress]) {
           acc[cur.progress] = [cur];
         } else {
-          acc[cur.progress].push(cur);
+          acc[cur.progress].splice(cur.index, 0, cur);
+          // acc[cur.progress].push(cur);
         }
 
         return { ...acc };
@@ -37,6 +38,7 @@ export const loader = async ({ request }) => {
 export const action = async ({ request }) => {
   const userId = await requireUserId(request);
   const formData = await request.formData();
+
   const { _action, ...values } = Object.fromEntries(formData);
 
   if (_action === 'create') {
@@ -49,20 +51,19 @@ export const action = async ({ request }) => {
       return json({ errors: { title: 'Title is required' } }, { status: 400 });
     }
 
-    await createTodo({ ...values, userId });
+    await createTodo({ userId, ...values });
     return redirect('/todos');
   }
 
   if (_action === 'drop') {
-    console.log('values', values);
+    const todos = JSON.parse(formData.get('todos'));
+    await updateUserTodos(todos);
     return redirect('/todos');
   }
 };
 
 export default function TodosIndexRoute() {
   const { user, newTodos } = useLoaderData();
-
-  // throw new Error('Testing Error Boundary');
   return (
     <TodoModalProvider>
       <TodoList user={user} todos={newTodos} />
