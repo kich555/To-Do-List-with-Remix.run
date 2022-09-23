@@ -1,6 +1,7 @@
 import { createStyles } from '@mantine/core';
+import type { MantineTheme } from '@mantine/core';
 
-const authStyles = createStyles(theme => ({
+const authStyles = createStyles((theme: MantineTheme) => ({
   label: {
     display: 'block',
   },
