@@ -1,9 +1,10 @@
+import React from 'react';
 import { useTheme } from '@emotion/react';
 import { Image, Box, Container, Divider, Modal, Title, ActionIcon, Badge } from '@mantine/core';
 import { Link, useLocation } from '@remix-run/react';
 import { useAuthUX } from './controller/context/AuthUXProvider';
 
-export default function AuthModal({ children }) {
+export default function AuthModal({ children }: { children: React.ReactNode }) {
   const theme = useTheme();
   const { pathname } = useLocation();
   const [open] = useAuthUX();
@@ -20,6 +21,7 @@ export default function AuthModal({ children }) {
       overlayBlur={1}
       withCloseButton={false}
       opened={open}
+      onClose={() => null}
     >
       <Container>
         <Box>
@@ -39,11 +41,8 @@ export default function AuthModal({ children }) {
             </Badge>
           </Box>
         </Box>
-
         <Divider mt={24} />
-        <Box align="center" mt={24}>
-          {children}
-        </Box>
+        <Box mt={24}>{children}</Box>
       </Container>
     </Modal>
   );
