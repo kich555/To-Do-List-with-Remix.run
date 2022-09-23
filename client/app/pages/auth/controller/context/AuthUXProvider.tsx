@@ -2,15 +2,20 @@ import { Image } from '@mantine/core';
 import { showNotification } from '@mantine/notifications';
 import { useLocation } from '@remix-run/react';
 import { capitalize } from '~/pages/auth/controller/utils/authUtils';
-import { useState, useEffect, useMemo, createContext, useContext } from 'react';
+import React, { useState, useEffect, useMemo, createContext, useContext } from 'react';
 
-const AuthUXContext = createContext();
+interface ActionState {
+  formError?: string;
+}
+type ValueType = [Boolean, ActionState, React.Dispatch<React.SetStateAction<ActionState>>];
 
-export function AuthUXProvider(props) {
-  const [actionData, setActionData] = useState({});
+const AuthUXContext = createContext<ValueType>([false, {}, () => {}]);
+
+export function AuthUXProvider({ children }: { children: React.ReactNode }) {
+  const [actionData, setActionData] = useState<ActionState>({});
   const { pathname } = useLocation();
   const location = capitalize(pathname.split('/')[2]);
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState<Boolean>(false);
   useEffect(() => {
     setTimeout(() => setOpen(true), 0);
   }, []);
@@ -22,12 +27,12 @@ export function AuthUXProvider(props) {
     showNotification({
       title: `${location} failed`,
       message: actionData?.formError,
-      icon: <Image sx={{ backgroundColor: 'white' }} loading="lazy" decoding="async" alt="error-icon" src="https://img.icons8.com/emoji/48/000000/cross-mark-emoji.png" />,
+      icon: <Image sx={{ backgroundColor: 'white' }} alt="error-icon" src="https://img.icons8.com/emoji/48/000000/cross-mark-emoji.png" />,
       autoClose: 3000,
     });
   }, [location, actionData]);
 
-  return <AuthUXContext.Provider value={value} {...props} />;
+  return <AuthUXContext.Provider value={[open, actionData, setActionData]}>{children}</AuthUXContext.Provider>;
 }
 
 export function useAuthUX() {
