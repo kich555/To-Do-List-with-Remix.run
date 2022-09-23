@@ -32,13 +32,14 @@
     "@remix-run/dev": "^1.7.0",
     "@remix-run/eslint-config": "^1.7.0",
     "@remix-run/serve": "^1.7.0",
+    "@types/bcryptjs": "^2.4.2",
     "@types/react": "^18.0.15",
     "@types/react-dom": "^18.0.6",
-    "typescript": "^4.7.4",
     "esbuild-register": "^3.3.3",
     "eslint": "^8.20.0",
     "eslint-plugin-import": "^2.26.0",
-    "prisma": "^4.3.1"
+    "prisma": "^4.3.1",
+    "typescript": "^4.7.4"
   },
   "engines": {
     "node": ">=14"
