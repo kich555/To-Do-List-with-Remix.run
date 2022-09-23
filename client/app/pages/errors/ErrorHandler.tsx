@@ -2,8 +2,9 @@ import { Box, Title, Text, Button, Container, Group } from '@mantine/core';
 import { Link, useLocation, useNavigate } from '@remix-run/react';
 import { useMemo } from 'react';
 import errorHandlerStyles from './styles/errorHandlerStyles';
+import type { CaughtError } from '~/types/commontypes';
 
-export default function ErrorHandler({ error }) {
+export default function ErrorHandler({ error }: { error: CaughtError }) {
   const { pathname } = useLocation();
   const { classes } = errorHandlerStyles(pathname);
   const { root, label, title, description, button } = classes;

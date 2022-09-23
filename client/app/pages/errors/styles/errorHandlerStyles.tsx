@@ -1,6 +1,7 @@
 import { createStyles } from '@mantine/core';
+import type { MantineTheme } from '@mantine/core';
 
-const errorHandlerStyles = createStyles((theme, pathname) => ({
+const errorHandlerStyles = createStyles((theme: MantineTheme, pathname: string) => ({
   root: {
     // backgroundColor: theme.fn.variant({ variant: 'filled', color: theme.primaryColor }).background,
     backgroundColor: theme.colors.gray[6],
