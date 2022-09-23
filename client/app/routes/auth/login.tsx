@@ -3,21 +3,32 @@ import { login, createUserSession } from '~/utils/session.server';
 import { Button, Input, Space } from '@mantine/core';
 import authStyles from '~/pages/auth/styles/authStyles';
 import { validateUsername, validatePassword } from '~/pages/auth/controller/utils/authUtils';
-import { badRequest, validateStringInputType } from '~/utils/actionHandler.server';
+import { AuthBadRequestResponse, badRequest, validateStringInputType } from '~/utils/actionHandler.server';
 import { useAuthUX } from '~/pages/auth/controller/context/AuthUXProvider';
 import { useEffect } from 'react';
+import type { ActionFunction } from '@remix-run/node';
+import invariant from 'tiny-invariant';
 
-export const action = async ({ request }) => {
+export type LoginActionData =
+  | {
+      username: undefined | string;
+      password: undefined | string;
+    }
+  | undefined;
+
+export const action: ActionFunction = async ({ request }: { request: Request }) => {
   const formData = await request.formData();
-  const fields = Object.fromEntries(formData);
-  const { username, password } = fields;
+  const { username, password } = Object.fromEntries(formData);
+  // const { username, password } = fields;
   const redirectTo = '/todos';
 
+  invariant(typeof username === 'string', `${username} must be a string`);
+  invariant(typeof password === 'string', `${password} must be a string`);
   // check input type is string
-  validateStringInputType(fields);
+  validateStringInputType({ username, password });
 
   // create field error message
-  const fieldErrors = {
+  const fieldErrors: LoginActionData = {
     username: validateUsername(username),
     password: validatePassword(password),
   };
@@ -25,23 +36,23 @@ export const action = async ({ request }) => {
   // check field has any error
   const arrayedObj = Object.values(fieldErrors);
   if (arrayedObj.some(Boolean)) {
-    return badRequest({ fieldErrors, fields });
+    return badRequest({ fieldErrors, ...{ username, password } });
   }
 
   const user = await login({ username, password });
 
   if (!user) {
     return badRequest({
-      fields,
+      fields: { username, password },
       formError: `Username/Password combination is incorrect`,
     });
   }
-  console.log('user', user);
+
   return createUserSession(user.id, redirectTo);
 };
 
 export default function LoginRoute() {
-  const actionData = useActionData();
+  const actionData = useActionData() as AuthBadRequestResponse;
   const { classes } = authStyles();
   const { label, input, errorInput, errorMessage, button } = classes;
   const [, , setActionData] = useAuthUX();
@@ -65,6 +76,7 @@ export default function LoginRoute() {
           aria-errormessage={(actionData?.fieldErrors?.username && 'username-error') || (actionData?.formError && 'User does not exist.')}
           placeholder="username"
           className={input}
+          //@ts-ignore
           styles={{ input: (actionData?.fieldErrors?.username || actionData?.formError) && errorInput }}
         />
         <Input.Error className={errorMessage}>{actionData?.fieldErrors?.username || actionData?.formError} </Input.Error>
@@ -80,6 +92,7 @@ export default function LoginRoute() {
           aria-errormessage={(actionData?.fieldErrors?.password && 'password-error') || (actionData?.formError && 'User does not exist.')}
           placeholder="password"
           className={input}
+          //@ts-ignore
           styles={{ input: (actionData?.fieldErrors?.password || actionData?.formError) && errorInput }}
         />
         <Input.Error className={errorMessage}>{actionData?.fieldErrors?.password || actionData?.formError} </Input.Error>
