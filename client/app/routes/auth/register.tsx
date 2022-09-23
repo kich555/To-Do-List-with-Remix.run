@@ -2,13 +2,23 @@ import { Form, useActionData } from '@remix-run/react';
 import { useEffect } from 'react';
 import { checkUser } from '~/models/user.server';
 import { Button, Input, Space } from '@mantine/core';
-import { badRequest, validateStringInputType } from '~/utils/actionHandler.server';
+import { AuthBadRequestResponse, badRequest, validateStringInputType } from '~/utils/actionHandler.server';
 import { validateUsername, validatePassword } from '~/pages/auth/controller/utils/authUtils';
 import authStyles from '~/pages/auth/styles/authStyles';
 import { register, createUserSession } from '~/utils/session.server';
 import { useAuthUX } from '~/pages/auth/controller/context/AuthUXProvider';
+import type { ActionFunction } from '@remix-run/node';
+import invariant from 'tiny-invariant';
 
-export const action = async ({ request }) => {
+export type RegisterActionData =
+  | {
+      username?: undefined | string;
+      password?: undefined | string;
+      confirmPassword?: undefined | string;
+    }
+  | undefined;
+
+export const action: ActionFunction = async ({ request }: { request: Request }) => {
   const formData = await request.formData();
   const fields = Object.fromEntries(formData);
   const { username, password, confirmPassword } = fields;
@@ -16,9 +26,13 @@ export const action = async ({ request }) => {
   // create confirm password field error message
   const confirmPasswordFieldError = `Password did not match. Please try again.`;
 
+  invariant(typeof username === 'string', `${username} must be a string`);
+  invariant(typeof password === 'string', `${password} must be a string`);
+  invariant(typeof confirmPassword === 'string', `${confirmPassword} must be a string`);
+
   // check password confirmed
   if (password !== confirmPassword) {
-    const fieldErrors = {
+    const fieldErrors: RegisterActionData = {
       confirmPassword: confirmPasswordFieldError,
     };
     return badRequest({ fieldErrors, fields });
@@ -28,7 +42,7 @@ export const action = async ({ request }) => {
   validateStringInputType(fields);
 
   // create field error message
-  const fieldErrors = {
+  const fieldErrors: RegisterActionData = {
     username: validateUsername(username),
     password: validatePassword(password),
   };
@@ -63,8 +77,8 @@ export const action = async ({ request }) => {
   return createUserSession(user.id, redirectTo);
 };
 
-export default function RegisterRoute(params) {
-  const actionData = useActionData();
+export default function RegisterRoute() {
+  const actionData = useActionData() as AuthBadRequestResponse;
   const { classes } = authStyles();
   const { label, input, errorInput, errorMessage, button } = classes;
   const [, , setActionData] = useAuthUX();
@@ -89,6 +103,7 @@ export default function RegisterRoute(params) {
             aria-errormessage={((actionData?.fieldErrors?.username || actionData?.formError?.includes('username')) && 'username-error') || (actionData?.formError && 'network-error')}
             placeholder="username"
             className={input}
+            //@ts-ignore
             styles={{ input: (actionData?.fieldErrors?.username || actionData?.formError) && errorInput }}
           />
           <Input.Error className={errorMessage}>{actionData?.fieldErrors?.username || actionData?.formError} </Input.Error>
@@ -104,6 +119,7 @@ export default function RegisterRoute(params) {
             aria-errormessage={actionData?.fieldErrors?.password && 'password-error'}
             placeholder="password"
             className={input}
+            //@ts-ignore
             styles={{ input: (actionData?.fieldErrors?.password || actionData?.formError) && errorInput }}
           />
           <Input.Error className={errorMessage}>{actionData?.fieldErrors?.password || actionData?.formError?.includes('wrong')} </Input.Error>
@@ -119,6 +135,7 @@ export default function RegisterRoute(params) {
             aria-errormessage={actionData?.fieldErrors?.confirmPassword && 'password-error'}
             placeholder="confirm password"
             className={input}
+            //@ts-ignore
             styles={{ input: (actionData?.fieldErrors?.confirmPassword || actionData?.formError) && errorInput }}
           />
           <Input.Error className={errorMessage}>{actionData?.fieldErrors?.confirmPassword} </Input.Error>
