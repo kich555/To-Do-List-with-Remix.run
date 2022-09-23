@@ -5,6 +5,7 @@ import { StylesPlaceholder } from '@mantine/remix';
 import Layout from '~/components/Layout';
 import resetCSS from '~/styles/reset.css';
 import DefaultErrorContainer from '~/pages/home/errors/DefaultErrorContainer';
+import type { CaughtError } from './types/commontypes';
 
 export const links = () => [
   {
@@ -19,7 +20,12 @@ export const meta = () => ({
   viewport: 'width=device-width,initial-scale=1',
 });
 
-function Document({ children, title = `TodoList` }) {
+interface DocumentProps {
+  children: React.ReactNode;
+  title?: string;
+}
+
+function Document({ children, title = `TodoList` }: DocumentProps) {
   return (
     <html lang="en">
       <head>
@@ -56,17 +62,19 @@ export default function App() {
 export function CatchBoundary() {
   const caught = useCatch();
 
+  const error = { ...caught, ...{ name: caught.data.name || '', message: caught.data.message || '' } };
+
   return (
     <Document title={`${caught.status} || ${caught.statusText}`}>
-      <DefaultErrorContainer error={caught} />
+      <DefaultErrorContainer error={error} />
     </Document>
   );
 }
 
-export function ErrorBoundary({ error }) {
+export function ErrorBoundary({ error }: { error: CaughtError }) {
   return (
     <Document title="Something Wrong">
-      <DefaultErrorContainer message={error?.message} status={error?.status} />
+      <DefaultErrorContainer error={error} />
     </Document>
   );
 }
