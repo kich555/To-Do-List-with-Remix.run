@@ -7,7 +7,7 @@ import React, { useState, useEffect, useMemo, createContext, useContext } from '
 interface ActionState {
   formError?: string;
 }
-type ValueType = [Boolean, ActionState, React.Dispatch<React.SetStateAction<ActionState>>];
+type ValueType = [boolean, ActionState, React.Dispatch<React.SetStateAction<ActionState>>];
 
 const AuthUXContext = createContext<ValueType>([false, {}, () => {}]);
 
@@ -15,7 +15,7 @@ export function AuthUXProvider({ children }: { children: React.ReactNode }) {
   const [actionData, setActionData] = useState<ActionState>({});
   const { pathname } = useLocation();
   const location = capitalize(pathname.split('/')[2]);
-  const [open, setOpen] = useState<Boolean>(false);
+  const [open, setOpen] = useState<boolean>(false);
   useEffect(() => {
     setTimeout(() => setOpen(true), 0);
   }, []);
