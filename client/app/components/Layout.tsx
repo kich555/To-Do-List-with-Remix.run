@@ -1,6 +1,7 @@
 import { createStyles } from '@mantine/core';
+import type { MantineTheme } from '@mantine/core';
 
-const layoutStyles = createStyles(theme => ({
+const layoutStyles = createStyles((theme: MantineTheme) => ({
   wrapper: {
     position: 'relative',
     minHeight: '100vh',
@@ -10,7 +11,7 @@ const layoutStyles = createStyles(theme => ({
   },
 }));
 
-export default function Layout({ children }) {
+export default function Layout({ children }: { children: React.ReactNode }) {
   const { classes } = layoutStyles();
   const { wrapper } = classes;
 
