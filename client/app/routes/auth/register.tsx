@@ -10,13 +10,15 @@ import { useAuthUX } from '~/pages/auth/controller/context/AuthUXProvider';
 import type { ActionFunction } from '@remix-run/node';
 import invariant from 'tiny-invariant';
 
-export type RegisterActionData =
-  | {
-      username?: undefined | string;
-      password?: undefined | string;
-      confirmPassword?: undefined | string;
-    }
-  | undefined;
+export interface RegisterActionData {
+  [key: string]: string;
+  username: string;
+  password: string;
+}
+
+interface confirmPasswordError {
+  confirmPassword: 'Password did not match. Please try again.';
+}
 
 export const action: ActionFunction = async ({ request }: { request: Request }) => {
   const formData = await request.formData();
@@ -32,7 +34,7 @@ export const action: ActionFunction = async ({ request }: { request: Request }) 
 
   // check password confirmed
   if (password !== confirmPassword) {
-    const fieldErrors: RegisterActionData = {
+    const fieldErrors: confirmPasswordError = {
       confirmPassword: confirmPasswordFieldError,
     };
     return badRequest({ fieldErrors, fields });
