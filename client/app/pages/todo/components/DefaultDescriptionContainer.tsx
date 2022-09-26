@@ -1,7 +1,13 @@
 import { Box, Button } from '@mantine/core';
+
 import todoDetailStyles from '~/pages/todo/styles/todoDetailStyles';
 
-export default function DefaultDescriptionContainer({ description, setEditDescription }) {
+interface DefaultDescriptionContainerProps {
+  description: string;
+  setEditDescription: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+export default function DefaultDescriptionContainer({ description, setEditDescription }: DefaultDescriptionContainerProps) {
   const { classes, cx } = todoDetailStyles();
   const { formWrapper, descriptionBox, editBox } = classes;
 
