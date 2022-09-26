@@ -7,11 +7,20 @@ import { useDropList } from '../todo/controller/hook/useDropList';
 import { useModal } from '../todo/controller/context/TodoModalProvider';
 import TodoProgress from './TodoProgress';
 
-export default function TodoList({ user, todos }) {
-  const [open, dispatch, handleClose] = useModal();
-  const dropFormRef = useRef();
-  const progress = useMemo(() => ['todo', 'inProgress', 'done'], []);
-  const [todoList, arrayedTodoList, handleDragEnd] = useDropList({ progress, todos });
+import type { LiteralTodos, user } from '~/models/todo.server';
+
+export type Progress = ['todo', 'inProgress', 'done'];
+
+interface TodoListProps {
+  user: user;
+  todos: LiteralTodos;
+}
+
+export default function TodoList({ user, todos }: TodoListProps) {
+  const { open, dispatch, handleClose } = useModal();
+  const dropFormRef = useRef<HTMLFormElement>(null);
+  const progress: Progress = useMemo(() => ['todo', 'inProgress', 'done'], []);
+  const { todoList, arrayedTodoList, handleDragEnd } = useDropList({ progress, todos });
   const theme = useTheme();
   const params = useParams();
 
@@ -34,15 +43,15 @@ export default function TodoList({ user, todos }) {
 
   return (
     <>
-      <Title align="center" pt={36}>{`Hi ${user.username}`}</Title>
+      <Title align="center" pt={36}>{`Hi ${user?.username}`}</Title>
       <DragDropContext onDragEnd={handleDragEnd}>
         <Box sx={{ display: 'flex', justifyContent: 'center', height: '100%' }} py={20}>
-          <Form ref={dropFormRef} method="update">
+          <Form ref={dropFormRef} method="post">
             <Input type="hidden" name="_action" value="drop" />
             <Input type="hidden" name="todos" value={JSON.stringify(arrayedTodoList)} />
           </Form>
-          {progress.map(progress => (
-            <TodoProgress key={progress} prefix={progress} progress={todoList[progress]} />
+          {progress.map(progressName => (
+            <TodoProgress key={progressName} prefix={progressName} progress={todoList[progressName]} />
           ))}
         </Box>
       </DragDropContext>
