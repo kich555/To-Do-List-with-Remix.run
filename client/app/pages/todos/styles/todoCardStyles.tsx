@@ -1,6 +1,7 @@
 import { createStyles } from '@mantine/core';
+import type { MantineTheme } from '@mantine/core';
 
-const todoCardStyles = createStyles(theme => ({
+const todoCardStyles = createStyles((theme: MantineTheme) => ({
   item: {
     ...theme.fn.focusStyles(),
 
