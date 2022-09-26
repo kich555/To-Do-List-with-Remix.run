@@ -7,7 +7,12 @@ import React, { useState, useEffect, createContext, useContext } from 'react';
 type ActionState = {
   formError?: string;
 };
-type AuthUXContextValueType = { open: boolean; actionData: ActionState; setActionData: React.Dispatch<React.SetStateAction<ActionState>> };
+
+interface AuthUXContextValueType {
+  open: boolean;
+  actionData: ActionState;
+  setActionData: React.Dispatch<React.SetStateAction<ActionState>>;
+}
 
 const AuthUXContext = createContext<AuthUXContextValueType | null>(null);
 
