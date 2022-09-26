@@ -3,9 +3,15 @@ import { useNavigate } from '@remix-run/react';
 import { useModal } from '~/pages/todo/controller/context/TodoModalProvider';
 import { Draggable } from 'react-beautiful-dnd';
 import todoCardStyles from './styles/todoCardStyles';
+import type { Todo } from '@prisma/client';
 
-export default function TodoCard({ card, index }) {
-  const [, dispatch] = useModal();
+interface TodoCardProps {
+  card: Todo;
+  index: number;
+}
+
+export default function TodoCard({ card, index }: TodoCardProps) {
+  const { dispatch } = useModal();
   const { classes, cx } = todoCardStyles();
   const { item, itemDragging, inner } = classes;
   const navigate = useNavigate();
@@ -40,7 +46,7 @@ export default function TodoCard({ card, index }) {
               {card.category}
             </Badge>
           </Box>
-          {provided.placeholder}
+          {/* {provided.placeholder} */}
         </Box>
       )}
     </Draggable>
