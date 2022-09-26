@@ -6,17 +6,15 @@ import { validateUsername, validatePassword } from '~/pages/auth/controller/util
 import { AuthBadRequestResponse, badRequest, validateStringInputType } from '~/utils/actionHandler.server';
 import { useAuthUX } from '~/pages/auth/controller/context/AuthUXProvider';
 import { useEffect } from 'react';
-import type { ActionFunction } from '@remix-run/node';
+import type { ActionArgs } from '@remix-run/node';
 import invariant from 'tiny-invariant';
 
-export type LoginActionData =
-  | {
-      username: undefined | string;
-      password: undefined | string;
-    }
-  | undefined;
+export interface LoginActionData {
+  username: string;
+  password: string;
+}
 
-export const action: ActionFunction = async ({ request }: { request: Request }) => {
+export const action = async ({ request }: ActionArgs) => {
   const formData = await request.formData();
   const { username, password } = Object.fromEntries(formData);
   // const { username, password } = fields;
