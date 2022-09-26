@@ -81,7 +81,7 @@ export default function RegisterRoute() {
   const actionData = useActionData() as AuthBadRequestResponse;
   const { classes } = authStyles();
   const { label, input, errorInput, errorMessage, button } = classes;
-  const [, , setActionData] = useAuthUX();
+  const { setActionData } = useAuthUX();
 
   useEffect(() => {
     if (!actionData) return;

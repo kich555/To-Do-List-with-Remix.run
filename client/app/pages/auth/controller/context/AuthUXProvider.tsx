@@ -2,14 +2,14 @@ import { Image } from '@mantine/core';
 import { showNotification } from '@mantine/notifications';
 import { useLocation } from '@remix-run/react';
 import { capitalize } from '~/pages/auth/controller/utils/authUtils';
-import React, { useState, useEffect, useMemo, createContext, useContext } from 'react';
+import React, { useState, useEffect, createContext, useContext } from 'react';
 
-interface ActionState {
+type ActionState = {
   formError?: string;
-}
-type ValueType = [boolean, ActionState, React.Dispatch<React.SetStateAction<ActionState>>];
+};
+type AuthUXContextValueType = { open: boolean; actionData: ActionState; setActionData: React.Dispatch<React.SetStateAction<ActionState>> };
 
-const AuthUXContext = createContext<ValueType>([false, {}, () => {}]);
+const AuthUXContext = createContext<AuthUXContextValueType | null>(null);
 
 export function AuthUXProvider({ children }: { children: React.ReactNode }) {
   const [actionData, setActionData] = useState<ActionState>({});
@@ -19,7 +19,6 @@ export function AuthUXProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     setTimeout(() => setOpen(true), 0);
   }, []);
-  const value = useMemo(() => [open, actionData, setActionData], [open, actionData]);
 
   useEffect(() => {
     if (!actionData.formError) return;
@@ -32,7 +31,7 @@ export function AuthUXProvider({ children }: { children: React.ReactNode }) {
     });
   }, [location, actionData]);
 
-  return <AuthUXContext.Provider value={[open, actionData, setActionData]}>{children}</AuthUXContext.Provider>;
+  return <AuthUXContext.Provider value={{ open, actionData, setActionData }}>{children}</AuthUXContext.Provider>;
 }
 
 export function useAuthUX() {

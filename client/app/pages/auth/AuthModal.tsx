@@ -7,7 +7,7 @@ import { useAuthUX } from './controller/context/AuthUXProvider';
 export default function AuthModal({ children }: { children: React.ReactNode }) {
   const theme = useTheme();
   const { pathname } = useLocation();
-  const [open] = useAuthUX();
+  const { open } = useAuthUX();
 
   return (
     <Modal
