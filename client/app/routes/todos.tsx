@@ -11,8 +11,9 @@ import type { Todo } from '@prisma/client';
 import invariant from 'tiny-invariant';
 import { CaughtError } from '~/types/commontypes';
 
-interface NewTodos {
-  [process: string]: Todo[];
+interface LoaderData {
+  user: Awaited<ReturnType<typeof getUser>>;
+  todos: Awaited<ReturnType<typeof getUserTodos>>;
 }
 
 export const loader: LoaderFunction = async ({ request }: LoaderArgs) => {
@@ -22,26 +23,7 @@ export const loader: LoaderFunction = async ({ request }: LoaderArgs) => {
   if (!user) return redirect('/auth/login');
   const todos = await getUserTodos(user);
 
-  function getNewTodos(): NewTodos {
-    if (todos.length === 0) {
-      return {};
-    } else {
-      return todos?.reduce((acc: NewTodos, cur) => {
-        if (!acc[cur.progress]) {
-          acc[cur.progress] = [cur];
-        } else {
-          acc[cur.progress].splice(cur.index, 0, cur);
-          // acc[cur.progress].push(cur);
-        }
-
-        return { ...acc };
-      }, {});
-    }
-  }
-
-  const newTodos = getNewTodos();
-
-  return json({ user, newTodos });
+  return json<LoaderData>({ user, todos });
 };
 
 export const action: ActionFunction = async ({ request }: ActionArgs) => {
@@ -81,10 +63,10 @@ export const action: ActionFunction = async ({ request }: ActionArgs) => {
 };
 
 export default function TodosIndexRoute() {
-  const { user, newTodos } = useLoaderData();
+  const { user, todos } = useLoaderData() as LoaderData;
   return (
     <TodoModalProvider>
-      <TodoList user={user} todos={newTodos} />
+      <TodoList user={user} todos={todos} />
     </TodoModalProvider>
   );
 }
