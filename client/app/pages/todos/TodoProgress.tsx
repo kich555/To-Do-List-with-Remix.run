@@ -1,22 +1,29 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { Form, useSubmit } from '@remix-run/react';
 import { Droppable } from 'react-beautiful-dnd';
 import { Badge, Box, Button, Container, Group, Input, Text, Textarea, Title } from '@mantine/core';
 import { useScrollIntoView } from '@mantine/hooks';
 import TodoCard from './TodoCard';
 import todoProgressStyles from './styles/todoProgressStyles';
+import type { Todo } from '@prisma/client';
 
-export default function TodoProgress({ progress, prefix }) {
+export type prefix = 'todo' | 'inProgress' | 'done';
+
+interface TodoProgressProps {
+  progress: Todo[] | undefined;
+  prefix: prefix;
+}
+
+export default function TodoProgress({ progress, prefix }: TodoProgressProps) {
   const [isClicked, setIsClicked] = useState(false);
   const [category, setCategory] = useState('life');
   const { classes } = todoProgressStyles();
   const { wrapper, createCardInput, badge } = classes;
-  const { scrollIntoView, targetRef, scrollableRef } = useScrollIntoView({ duration: 0 });
-  const cards = progress?.map((card, index) => <TodoCard key={card.id} card={card} index={index} onClick />);
-
+  const { scrollIntoView, targetRef, scrollableRef } = useScrollIntoView<HTMLDivElement>({ duration: 0 });
+  const cards = progress?.map((card, index) => <TodoCard key={card.id} card={card} index={index} />);
   const submit = useSubmit();
 
-  const handleCreateTodo = event => {
+  const handleCreateTodo = (event: React.FormEvent<HTMLFormElement>) => {
     const formData = new FormData(event.currentTarget);
     setIsClicked(false);
     return submit(formData, { method: 'post' });
@@ -33,8 +40,8 @@ export default function TodoProgress({ progress, prefix }) {
             <Box ref={scrollableRef} className={wrapper}>
               {cards}
               {provided.placeholder}
-              <div ref={targetRef} />
             </Box>
+            <div ref={targetRef} />
             <Box mt={20} sx={{ width: '100%' }}>
               {isClicked ? (
                 <Form method="post" onSubmit={handleCreateTodo}>
