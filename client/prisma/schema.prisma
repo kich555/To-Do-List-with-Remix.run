@@ -18,7 +18,6 @@ model Todo {
   updatedAt   DateTime @updatedAt
   title       String
   description String
-  done        Boolean
   category    String
   progress    String
   index       Int
