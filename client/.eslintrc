@@ -1,3 +1,48 @@
 {
-  "extends": ["@remix-run/eslint-config", "@remix-run/eslint-config/node"]
+  // "extends": ["@remix-run/eslint-config", "@remix-run/eslint-config/node"]
+  "extends": ["plugin:@typescript-eslint/recommended", "airbnb", "airbnb/hooks", "airbnb-typescript", "plugin:react/recommended", "prettier"],
+  "plugins": ["@typescript-eslint"],
+  "parserOptions": {
+    "project": ["tsconfig.json"]
+  },
+  "rules": {
+    "import/prefer-default-export": "off",
+    "implicit-arrow-linebreak": "off",
+    "operator-linebreak": "off",
+    "@typescript-eslint/no-use-before-define": "off",
+    "@typescript-eslint/ban-ts-comment": "off",
+    "react/require-default-props": "off",
+    "jsx-quotes": "off",
+    "no-nested-ternary": "off",
+    "prettier/prettier": ["off", {}, { "usePrettierrc": true }],
+    "arrow-body-style": "off",
+    "prefer-arrow-callback": "off",
+    "@typescript-eslint/indent": "off",
+    "no-confusing-arrow": "off",
+    "react/react-in-jsx-scope": "off",
+    "react/jsx-props-no-spreading": "off",
+    "function-paren-newline": "off",
+    "@typescript-eslint/no-namespace": "off",
+    "object-curly-newline": "off",
+    "react/jsx-curly-newline": "off",
+    "no-bitwise": ["error", { "allow": ["~"] }],
+    "no-continue": "off",
+    "react/jsx-wrap-multilines": "off",
+    "jsx-a11y/no-static-element-interactions": "off",
+    "jsx-a11y/click-events-have-key-events": "off",
+    "react/prop-types": "off",
+    "global-require": "off",
+    "no-tabs": ["error", { "allowIndentationTabs": true }],
+    "no-param-reassign": ["error", { "props": true, "ignorePropertyModificationsFor": ["draft"] }],
+    "@typescript-eslint/naming-convention": [
+      "error",
+      {
+        "selector": "memberLike",
+        "modifiers": ["private"],
+        "format": ["camelCase"],
+        "leadingUnderscore": "allowSingleOrDouble"
+      }
+    ],
+    "no-underscore-dangle": "off"
+  }
 }
