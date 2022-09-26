@@ -1,6 +1,7 @@
 import { createStyles } from '@mantine/core';
+import type { MantineTheme } from '@mantine/core';
 
-const homeContentStyles = createStyles(theme => ({
+const homeContentStyles = createStyles((theme: MantineTheme) => ({
   container: {
     display: 'flex',
     flexDirection: 'column',
