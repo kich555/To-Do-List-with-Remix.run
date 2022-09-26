@@ -8,11 +8,16 @@ import { TodoModalProvider } from '~/pages/todo/controller/context/TodoModalProv
 
 import type { LoaderArgs, LoaderFunction } from '@remix-run/node';
 import type { Todo } from '@prisma/client';
+import type { CaughtError } from '~/types/commontypes';
 import invariant from 'tiny-invariant';
-import { CaughtError } from '~/types/commontypes';
 
-interface LoaderData {
-  user: Awaited<ReturnType<typeof getUser>>;
+interface user {
+  id: string;
+  username: string;
+}
+
+interface TodosLoaderData {
+  user: user;
   todos: Awaited<ReturnType<typeof getUserTodos>>;
 }
 
@@ -23,7 +28,7 @@ export const loader: LoaderFunction = async ({ request }: LoaderArgs) => {
   if (!user) return redirect('/auth/login');
   const todos = await getUserTodos(user);
 
-  return json<LoaderData>({ user, todos });
+  return json<TodosLoaderData>({ user, todos });
 };
 
 export const action: ActionFunction = async ({ request }: ActionArgs) => {
@@ -39,15 +44,18 @@ export const action: ActionFunction = async ({ request }: ActionArgs) => {
   if (_action === 'create') {
     // values.index type 변경
 
-    // values.index *= 1; <--잠시 꺼둠
-
-    const { title } = values;
+    let { title, category, progress, index } = values;
 
     if (typeof title !== 'string' || title.length === 0) {
       return json({ errors: { title: 'Title is required' } }, { status: 400 });
     }
 
-    await createTodo({ userId, ...values });
+    invariant(typeof category === 'string', `${category} must be a string`);
+    invariant(typeof progress === 'string', `${progress} must be a string?`);
+    invariant(typeof index === 'string', `${index} must be a number`);
+    const numberIndex = parseInt(index);
+
+    await createTodo({ userId, title, category, progress, numberIndex });
     // return redirect('/todos');
   }
 
@@ -63,7 +71,7 @@ export const action: ActionFunction = async ({ request }: ActionArgs) => {
 };
 
 export default function TodosIndexRoute() {
-  const { user, todos } = useLoaderData() as LoaderData;
+  const { user, todos } = useLoaderData() as TodosLoaderData;
   return (
     <TodoModalProvider>
       <TodoList user={user} todos={todos} />
