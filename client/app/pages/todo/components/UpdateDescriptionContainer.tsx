@@ -2,12 +2,18 @@ import { Form, useSubmit } from '@remix-run/react';
 import { Box, Button, Group, Input, Textarea } from '@mantine/core';
 import todoDetailStyles from '~/pages/todo/styles/todoDetailStyles';
 
-export default function UpdateDescriptionContainer({ id, todoCategory, setEditDescription }) {
+interface UpdateDescriptionContainerProps {
+  id: string;
+  todoCategory: string;
+  setEditDescription: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+export default function UpdateDescriptionContainer({ id, todoCategory, setEditDescription }: UpdateDescriptionContainerProps) {
   const submit = useSubmit();
   const { classes, cx } = todoDetailStyles();
   const { formWrapper, updateBox, buttonGroup } = classes;
 
-  const handleUpdate = event => {
+  const handleUpdate = (event: React.FormEvent<HTMLFormElement>) => {
     const formData = new FormData(event.currentTarget);
     setEditDescription(false);
     return submit(formData, { method: 'patch' });
