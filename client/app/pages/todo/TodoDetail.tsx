@@ -1,13 +1,13 @@
 import { Badge, Box, Button, Container, Divider, Title, Input } from '@mantine/core';
-
 import { Form } from '@remix-run/react';
 import { useState } from 'react';
+import UpdateDescriptionContainer from '~/pages/todo/components/UpdateDescriptionContainer';
+import DefaultDescriptionContainer from '~/pages/todo/components/DefaultDescriptionContainer';
 
-import UpdateDescriptionContainer from '~/pages/todo/UpdateDescriptionContainer';
-import DefaultDescriptionContainer from '~/pages/todo/DefaultDescriptionContainer';
+import type { TodoLoaderData } from '~/routes/todos/$id';
 
-export default function TodoDetail({ loaderData }) {
-  const { id, title, category, description } = loaderData;
+export default function TodoDetail({ todo }: { todo: TodoLoaderData }) {
+  const { id, title, category, description } = todo;
   const [todoCategory, setTodoCategory] = useState(category);
   const [editDescription, setEditDescription] = useState(false);
 
