@@ -1,6 +1,7 @@
 import { createStyles } from '@mantine/core';
+import type { MantineTheme } from '@mantine/core';
 
-const todoProgressStyles = createStyles(theme => ({
+const todoProgressStyles = createStyles((theme: MantineTheme) => ({
   wrapper: {
     width: '100%',
     maxHeight: '464px',
