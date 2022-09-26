@@ -1,6 +1,7 @@
 import { createStyles } from '@mantine/core';
+import type { MantineTheme } from '@mantine/core';
 
-const todoDetailStyles = createStyles(theme => ({
+const todoDetailStyles = createStyles((theme: MantineTheme) => ({
   formWrapper: {
     minHeight: '320px',
   },
