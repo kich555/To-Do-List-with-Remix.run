@@ -1,14 +1,26 @@
 export function validateUsername(username: string) {
-  if (typeof username !== 'string' || username.length < 3) {
-    return `Usernames must be at least 3 characters long`;
-  }
+  /* 
+    Usernames can only have: 
+    - Lowercase Letters (a-z) 
+    - Numbers (0-9)
+    - Underscores (_)
+    - 3 to 12 characters
+  */
+  const valid = /^[a-z]{1}[a-z0-9_]{2,11}$/.test(username);
+  if (!valid) return `Usernames must be at least 3 characters long`;
   return '';
 }
 
 export function validatePassword(password: string) {
-  if (typeof password !== 'string' || password.length < 6) {
-    return `Passwords must be at least 6 characters long`;
-  }
+  /* 
+    passwords can only have: 
+    - 7 to 15 characters
+    - Numbers (0-9)
+    - Underscores (_)
+  */
+  const valid = /^(?=.*\d)(?=.*[a-zA-Z])[0-9a-zA-Z]{7,14}$/.test(password);
+
+  if (!valid) return `Passwords must be at least 7 characters long`;
   return '';
 }
 
