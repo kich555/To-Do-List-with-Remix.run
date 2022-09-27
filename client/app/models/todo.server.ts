@@ -67,13 +67,14 @@ interface CreateTodoParams {
 }
 
 export async function createTodo({ userId, progress, category, title, numberIndex }: CreateTodoParams) {
+  console.log('numberIndex', numberIndex);
   const todo = {
     createrId: userId,
     title,
     description: '',
     category,
     progress,
-    index: numberIndex,
+    index: numberIndex | 0,
   };
 
   return db.todo.create({
