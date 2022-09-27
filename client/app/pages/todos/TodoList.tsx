@@ -1,5 +1,5 @@
 import { useRef, useEffect, useCallback, useMemo } from 'react';
-import { Form, Outlet, useParams } from '@remix-run/react';
+import { Form, Outlet, useFetcher, useParams } from '@remix-run/react';
 import { Box, Input, Button, Title, Modal } from '@mantine/core';
 import { useTheme } from '@emotion/react';
 import { DragDropContext } from 'react-beautiful-dnd';
@@ -17,6 +17,7 @@ interface TodoListProps {
 }
 
 export default function TodoList({ user, todos }: TodoListProps) {
+  const fetcher = useFetcher();
   const { open, dispatch, handleClose } = useModal();
   const dropFormRef = useRef<HTMLFormElement>(null);
   const progress: Progress = useMemo(() => ['todo', 'inProgress', 'done'], []);
@@ -38,18 +39,22 @@ export default function TodoList({ user, todos }: TodoListProps) {
   }, [todos, todoList]);
 
   useEffect(() => {
-    handleDrop();
-  }, [handleDrop]);
+    setTimeout(handleDrop, 500);
+  }, [arrayedTodoList]);
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+  };
 
   return (
     <>
       <Title align="center" pt={36}>{`Hi ${user?.username}`}</Title>
       <DragDropContext onDragEnd={handleDragEnd}>
         <Box sx={{ display: 'flex', justifyContent: 'center', height: '100%' }} py={20}>
-          <Form ref={dropFormRef} method="post">
+          <fetcher.Form ref={dropFormRef} method="post" replace={true} onSubmit={handleSubmit}>
             <Input type="hidden" name="_action" value="drop" />
             <Input type="hidden" name="todos" value={JSON.stringify(arrayedTodoList)} />
-          </Form>
+          </fetcher.Form>
           {progress.map(progressName => (
             <TodoProgress key={progressName} prefix={progressName} progress={todoList[progressName]} />
           ))}
