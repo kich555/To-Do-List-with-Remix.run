@@ -98,6 +98,8 @@ export async function requireUserId(request: Request, redirectTo = new URL(reque
 
 export async function createUserSession(userId: string, redirectTo: string) {
   const session = await storage.getSession();
+
+  session.set('userId', userId);
   return redirect(redirectTo, {
     headers: {
       'Set-Cookie': await storage.commitSession(session),
