@@ -45,7 +45,7 @@ export default function TodoProgress({ progress, prefix }: TodoProgressProps) {
             <Box mt={20} sx={{ width: '100%' }}>
               {isClicked ? (
                 <Form method="post" onSubmit={handleCreateTodo}>
-                  <Textarea placeholder="Enter a title for this card..." name="title" className={createCardInput} />
+                  <Textarea autoFocus placeholder="Enter a title for this card..." name="title" className={createCardInput} />
                   <Box sx={{ display: 'flex', justifyContent: 'flex-end' }} pt={12}>
                     <Badge variant={category === 'life' ? 'filled' : 'light'} className={badge} onClick={() => setCategory('life')}>
                       life
