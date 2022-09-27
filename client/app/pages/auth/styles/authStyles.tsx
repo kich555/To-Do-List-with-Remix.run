@@ -2,11 +2,16 @@ import { createStyles } from '@mantine/core';
 import type { MantineTheme } from '@mantine/core';
 
 const authStyles = createStyles((theme: MantineTheme) => ({
+  wrapper: {
+    display: 'flex',
+    flexDirection: 'column',
+  },
   label: {
     display: 'block',
   },
   input: {
     maxWidth: '240px',
+    margin: 'auto',
   },
   errorInput: {
     border: '1px solid red',
@@ -14,10 +19,12 @@ const authStyles = createStyles((theme: MantineTheme) => ({
   },
   errorMessage: {
     height: '14px',
+    textAlign: 'center',
   },
   button: {
     width: '100%',
     maxWidth: '240px',
+    margin: 'auto',
   },
 }));
 

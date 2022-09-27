@@ -1,6 +1,6 @@
 import { Form, useActionData } from '@remix-run/react';
 import { login, createUserSession } from '~/utils/session.server';
-import { Button, Input, Space } from '@mantine/core';
+import { Box, Button, Input, Space } from '@mantine/core';
 import authStyles from '~/pages/auth/styles/authStyles';
 import { validateUsername, validatePassword } from '~/pages/auth/controller/utils/authUtils';
 import { AuthBadRequestResponse, badRequest, validateStringInputType } from '~/utils/actionHandler.server';
@@ -52,7 +52,7 @@ export const action = async ({ request }: ActionArgs) => {
 export default function LoginRoute() {
   const actionData = useActionData() as AuthBadRequestResponse;
   const { classes } = authStyles();
-  const { label, input, errorInput, errorMessage, button } = classes;
+  const { wrapper, label, input, errorInput, errorMessage, button } = classes;
   const { setActionData } = useAuthUX();
 
   useEffect(() => {
@@ -62,43 +62,45 @@ export default function LoginRoute() {
 
   return (
     <Form method="post">
-      <Space h={20} />
-      <Input.Label htmlFor="username-input" mt={4} className={label}>
-        <Input
-          id="username-input"
-          name="username"
-          type="text"
-          defaultValue={actionData?.fields?.username}
-          aria-label="username"
-          aria-invalid={Boolean(actionData?.fieldErrors?.username) || Boolean(actionData?.formError)}
-          aria-errormessage={(actionData?.fieldErrors?.username && 'username-error') || (actionData?.formError && 'User does not exist.')}
-          placeholder="username"
-          className={input}
-          //@ts-ignore
-          styles={{ input: (actionData?.fieldErrors?.username || actionData?.formError) && errorInput }}
-        />
-        <Input.Error className={errorMessage}>{actionData?.fieldErrors?.username || actionData?.formError} </Input.Error>
-      </Input.Label>
-      <Input.Label htmlFor="password-input" mt={4} className={label}>
-        <Input
-          id="password-input"
-          name="password"
-          type="password"
-          defaultValue={actionData?.fields?.password}
-          aria-label="password"
-          aria-invalid={Boolean(actionData?.fieldErrors?.password) || Boolean(actionData?.formError)}
-          aria-errormessage={(actionData?.fieldErrors?.password && 'password-error') || (actionData?.formError && 'User does not exist.')}
-          placeholder="password"
-          className={input}
-          //@ts-ignore
-          styles={{ input: (actionData?.fieldErrors?.password || actionData?.formError) && errorInput }}
-        />
-        <Input.Error className={errorMessage}>{actionData?.fieldErrors?.password || actionData?.formError} </Input.Error>
-      </Input.Label>
-      <Button type="submit" variant="gradient" className={button} mt={8}>
-        Log in
-      </Button>
-      <Space h={60} />
+      <Box className={wrapper}>
+        <Space h={20} />
+        <Input.Label htmlFor="username-input" mt={4} className={label}>
+          <Input
+            id="username-input"
+            name="username"
+            type="text"
+            defaultValue={actionData?.fields?.username}
+            aria-label="username"
+            aria-invalid={Boolean(actionData?.fieldErrors?.username) || Boolean(actionData?.formError)}
+            aria-errormessage={(actionData?.fieldErrors?.username && 'username-error') || (actionData?.formError && 'User does not exist.')}
+            placeholder="username"
+            className={input}
+            //@ts-ignore
+            styles={{ input: (actionData?.fieldErrors?.username || actionData?.formError) && errorInput }}
+          />
+          <Input.Error className={errorMessage}>{actionData?.fieldErrors?.username || actionData?.formError} </Input.Error>
+        </Input.Label>
+        <Input.Label htmlFor="password-input" mt={4} className={label}>
+          <Input
+            id="password-input"
+            name="password"
+            type="password"
+            defaultValue={actionData?.fields?.password}
+            aria-label="password"
+            aria-invalid={Boolean(actionData?.fieldErrors?.password) || Boolean(actionData?.formError)}
+            aria-errormessage={(actionData?.fieldErrors?.password && 'password-error') || (actionData?.formError && 'User does not exist.')}
+            placeholder="password"
+            className={input}
+            //@ts-ignore
+            styles={{ input: (actionData?.fieldErrors?.password || actionData?.formError) && errorInput }}
+          />
+          <Input.Error className={errorMessage}>{actionData?.fieldErrors?.password || actionData?.formError} </Input.Error>
+        </Input.Label>
+        <Button type="submit" variant="gradient" className={button} mt={8}>
+          Log in
+        </Button>
+        <Space h={60} />
+      </Box>
     </Form>
   );
 }
