@@ -12,7 +12,7 @@ export default function AuthModal({ children }: { children: React.ReactNode }) {
   return (
     <Modal
       transition="rotate-left"
-      transitionDuration={300}
+      transitionDuration={700}
       transitionTimingFunction="ease"
       size="md"
       centered
