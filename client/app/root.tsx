@@ -62,7 +62,7 @@ export default function App() {
 export function CatchBoundary() {
   const caught = useCatch();
 
-  const error = { ...caught, ...{ name: caught.data.name || '', message: caught.data.message || '' } };
+  const error = { ...caught, ...{ name: '', message: '' } };
 
   return (
     <Document title={`${caught.status} || ${caught.statusText}`}>
