@@ -2,9 +2,10 @@ import { Overlay, Container, Title, Button, Text } from '@mantine/core';
 import { Link } from '@remix-run/react';
 import homeContentStyles from './styles/homeContentStyles';
 
-export default function HomContent() {
+export default function HomeContent() {
   const { classes } = homeContentStyles();
   const { container, title, description, control } = classes;
+
   return (
     <>
       <Overlay gradient="linear-gradient(180deg, rgba(0, 0, 0, 0.25) 0%, rgba(0, 0, 0, .65) 100%)" opacity={1} zIndex={0} />

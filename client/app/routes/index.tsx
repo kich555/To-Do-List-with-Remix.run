@@ -1,4 +1,4 @@
-import HomContent from '~/pages/home/HomContent';
+import HomContent from '~/pages/home/HomeContent';
 
 export default function MainRoute() {
   // throw new Error('Testing Error Boundary');
